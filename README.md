@@ -4,7 +4,7 @@
 ## Zweck und Ziel der Anwendung
 Die Applikation "Wanderlust - The personal way to backpack" richtet sich and Backpacker. Die App soll dabei helfen, auf der Reise besuchte Orte zu speichern, zu verwalten, Erfahrungen über besuchte Örtlichkeiten mit anderen Backpackern auf der Reise auszutauschen und so seine Reiseroute individuell auf Basis eines Bekannten zu planen und anzupassen. Durch die Anwendung haben Backpacker die Möglichkeit, nicht nur selbst ihre besuchten Orte zu verwalten, sondern auch Empfehlungen von anderen Backpackern, die sie auf ihrer Reise treffen, mit in ihre Reiseplanung einzubinden. Es wird die Tatsache, dass sich Backpacker als meist sehr kommunikativ erweisen, genutzt, und mit ihrem Wunsch, schöne Orte zu entdecken, verbunden. 
 
-##Nutzungsszenario/Anwendungsgebiet
+## Nutzungsszenario/Anwendungsgebiet
 
 Für die Nutzung der App muss sich jeder mit einem Google-Konto anmelden. Jeder Backpacker speichert während seiner Reise die Orte, die er besucht hat, in einer persönlichen Liste. Dabei kann er die Orte verschieden beschreiben, beispielsweise mit verschiedenen Kategorien (z.  B. Restaurants, Bars, Museen Aussichtspunkt), einem Freitextfeld und mehreren Bilder, welche er entweder direkt mit der Kamera aufnimmt oder aus der Galerie auswählen kann. Die Orte werden dabei nicht nur in einer Listenform angezeigt, sondern können auch auf einer Kartenansicht betrachtet werden. Für ihn besondere Orte kann der Backpacker als Favorit markieren. 
 
@@ -35,7 +35,7 @@ Bei der Ansicht auf der Karte bzw. der Liste könnte ein weiterer Filter eingeba
 # App
 
 
-##Design
+## Design
 
 ### Slogan
 
@@ -346,7 +346,7 @@ Freunde aus Kontaktliste vorschlagen
 
 
 
-#Ausblick
+# Ausblick
 
 ## Offline-Verhalten
 
