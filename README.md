@@ -1,3 +1,90 @@
+# Konzept
+**Anmerkung**: In folgendem Bericht wurde das generische Maskulin verwendet (z. B. Nutzer), um die Leserlichkeit des Textes zu erhöhen. Es impliziert gleichermaßen die weibliche Form (Nutzerin). 
+
+## Zweck und Ziel der Anwendung
+Die Applikation "Wanderlust - The personal way to backpack" richtet sich and Backpacker. Die App soll dabei helfen, auf der Reise besuchte Orte zu speichern, zu verwalten, Erfahrungen über besuchte Örtlichkeiten mit anderen Backpackern auf der Reise auszutauschen und so seine Reiseroute individuell auf Basis eines Bekannten zu planen und anzupassen. Durch die Anwendung haben Backpacker die Möglichkeit, nicht nur selbst ihre besuchten Orte zu verwalten, sondern auch Empfehlungen von anderen Backpackern, die sie auf ihrer Reise treffen, mit in ihre Reiseplanung einzubinden. Es wird die Tatsache, dass sich Backpacker als meist sehr kommunikativ erweisen, genutzt, und mit ihrem Wunsch, schöne Orte zu entdecken, verbunden. 
+
+##Nutzungsszenario/Anwendungsgebiet
+
+Für die Nutzung der App muss sich jeder mit einem Google-Konto anmelden. Jeder Backpacker speichert während seiner Reise die Orte, die er besucht hat, in einer persönlichen Liste. Dabei kann er die Orte verschieden beschreiben, beispielsweise mit verschiedenen Kategorien (z.  B. Restaurants, Bars, Museen Aussichtspunkt), einem Freitextfeld und mehreren Bilder, welche er entweder direkt mit der Kamera aufnimmt oder aus der Galerie auswählen kann. Die Orte werden dabei nicht nur in einer Listenform angezeigt, sondern können auch auf einer Kartenansicht betrachtet werden. Für ihn besondere Orte kann der Backpacker als Favorit markieren. 
+
+Während der Reise treffen Backpacker auf Gleichgesinnte und unterhalten sich mit verschiedenen Menschen aus unterschiedlichen Ländern über ihre bisherigen Erlebnisse. Damit sie sich die Orte merken können, die angesprochen werden, können sie ihre Favoriten-Liste per NFC austauschen. Falls einem Handy kein NFC zur Verfügung steht, ist auch ein Austausch dieser Informationen über die Emailadresse möglich. Nach dem Austausch der Daten bleiben die Backpacker, auch wenn sie sich auf getrennte Wege begeben, miteinander verbunden. 
+
+
+
+## Zielgruppe
+
+Die Anwendung sieht als Hauptzielgruppe Backpacker vor. Backpacker sind meist junge Menschen zwischen 18 und 33, die für eine längere Zeit ein oder mehrere Länder in Selbstorganisation bereisen. Dabei haben sie keinen fest definierten Startpunkt, sondern reisen nicht linear von einem Ziel zum anderen. Dabei sind sie häufig daran interessiert, Bewohner des Landes, aber auch Mitreisende kennenzulernen und ihre Erfahrungen mit ihnen zu teilen.
+
+[^1]: Biesalski, Constanze (2009): Backpacking @ Latin America - The Role of Communikcation, Mobility, and ICTs. Universität Salzburg. Fachbereich Kommunikationswissenschaften. Magisterarbeit (S. 53-56) https://s3.amazonaws.com/ALoB/Biesalski_Backpacking+%40+Latin+America.pdf 
+
+Backpacker bereisen oft mehrere Länder, bevorzugt in Asien, Australien und Neuseeland. Dabei bleiben sie häufig nur wenige Tage an einem Ort, da es vorwiegend darum geht, ein Land zu durchqueren, neue Kulturen kennen zu lernen und auf der Reise Erfahrungen zu sammeln. 
+
+[^2]: Biesalski, Constanze (2009): Backpacking @ Latin America - The Role of Communikcation, Mobility, and ICTs. Universität Salzburg. Fachbereich Kommunikationswissenschaften. Magisterarbeit (S. 63-65) https://s3.amazonaws.com/ALoB/Biesalski_Backpacking+%40+Latin+America.pdf
+
+## Mögliche Erweiterungen des Konzeptes
+
+Bisher ist es nicht angedacht, dass die Nutzer außerhalb des Location-Austausches miteinander kommunizieren. In Zukunft könnte geprüft werden, ob auch eine Chatfunktion eine Option für die Anwendung wäre, um mit den Leuten in Kontakt zu bleiben, die sich auf einer Reise kennengelernt haben. Die gebildete Community hätte ein gemeinsames Interessensgebiet und würde ein eigenes Netzwerk bilden. Dies könnte wiederum dazu führen, dass sich Backpacker über die Anwendung verabreden. 
+
+Um zu verhindern, dass von einer Stadt oder einem Land sich zu viele Empfehlungen ansammeln, muss darüber nachgedacht werden, ob es sinnvoll ist, die Anzahl der Favoriten dabei zu begrenzen. In ersten Überlegungen könnte ein Maximum von 5 Favoriten pro Stadt und 20 pro Land sinnvoll sein. 
+
+Sinnvoll wäre es auch, den Freund über eine Aktualisierung seiner Locations über weitere Push-Notificatoins zu informieren. Wenn die Verbindung einmal hergestellt ist, soll der Backpacker immer die aktuelle Liste bzw. Karte sehen mit den eingetragenen Favoriten seiner Backpacker-Bekanntschaften. Eine weitere Funktionalität könnte auch sein, den aktuellen Standort den “Freunden” mitzuteilen und aktiv eine Nachricht an alle Freunde zu schicken. 
+
+Bei der Ansicht auf der Karte bzw. der Liste könnte ein weiterer Filter eingebaut werden, um nach eingetragenen Metadaten zu filtern, also z. B. nach Kategorien.  
+
+# App
+
+
+##Design
+
+### Slogan
+
+Die Grundidee, Backpacker zusammenzubringen und ihnen den Austausch von Empfehlungen zu erleichtern, wird im Slogan "The personal way to backpack" ausgedrückt. Dadurch, dass der Nutzer nicht mehr auf anonyme Hinweise aus Foren, Reisebüros oder Touristeninformationen angewiesen ist, sondern "aus erster Hand" erfährt, welche Orte sehenswert sind, fördert den Austausch der Nutzer untereinander, was insgesamt zu einer positiven Nutzererfahrung führen soll. 
+
+Durch das Wort "personal" soll ausgedrückt werden, dass die App hilft, die Kommunikation über interessante Orte zu fördern, den Austausch der zugehörigen Informationen zu vereinfachen und das menschliche Bedürfnis zu befriedigen, Teil einer Gruppe zu sein. Ziel der Anwendung ist es, aus einer "anonymen" Backpacker-Reise eine persönliche zu machen, in dem man sich auf persönliche Informationen und Empfehlungen von bekannten Menschen vertraut. 
+
+### Logo und Icons 
+
+Schon beim ersten Hinblicken scheint der Rucksack ein Gesicht zu sein. Dieser Eindruck entsteht, weil der Reisverschluss mittig im Rucksack sitzt und die zwei Schnallen in gleichem Abstand im oberen Drittel platziert sind. Das Logo wurde einer öffentlich zugänglichen Vekorgrafik von Freepik nachempfunden (siehe <https://www.freepik.com/free-vector/flat-backpack-collection_968686.htm>). Durch das Logo soll der eindruck einer gelösten Stimmung vermittelt werden. Eine Variante des Logos mit einem "traurigen" Rucksack wird in den Fragmenten "My Locations" und "My Friends" angezeigt, falls der Nutzer keine Verbindung mit dem Internet hat und somit keine Locations/Freunde geladen werden können. 
+
+Die Hauptfarben des Rucksacks und auch der App entsprechen einem kräftigen, satten Grün. Die Verbundenheit zur Natur wird durch die Farbwahl dargestellt. Die hohe Sättigung hat einen fröhlichen und unbekümmerten Charakter, was ganz gut zum Thema Reise und "Auszeit" passt. 
+
+### Umsetzung in Android
+
+Das Logo wird auch als Start-Icon für die Anwendung herangezogen. Alle anderen Icons, die in der Anwendung verwendet wurden, stammen aus dem Material Design von Android, da der Nutzer diese aus anderen Apps gewohnt ist und durch diesen Gewohnheitseffekt wiederum die Usability erhöht werden kann. Die Icons des Material Designs haben semantische Namen und werden gemäß ihrer Funktion ausgewählt, d. h. ist das Material Icon "Favorite" wird auch dafür verwendet, einen Ort zum Favoriten zu setzen. Außerdem wird die Integration dieser Icons von Android Studio sehr gut unterstützt. 
+
+Für die Anwendung wurde in Android Studio ein neues Theme angeleget, welches die meisten Eigenschaften vom Default-Theme "App Compat Light" erbt.  Der größte Unterschied besteht in den Farben. 
+
+Bis auf die "Activity Location Details" und das "My Map Fragment" wurden alle Layouts mit dem Constraint Layout konstruiert, da es flexible Aufteilungen der einzelnen Views ermöglicht. Im My-Map-Fragment war eine Umstellung darauf wegen der Einbindung der Karte nicht möglich. Die Activity Location Details, welche wiederum ein Fragment einbinden, wird mit einem Coordinator Layout gefüllt und enthält nur eine Appbar und einer Toolbar. Entsprechend der geladenen Daten aus dem Backend wird das Layout der Activity mit dem Fragment gefüllt. 
+
+Beim Gestalten des ConstraintLayouts wurde versucht, weitestgehend auf direkte Formatierung zu verzichtet und Variablen für beispielsweise Abstandsregelungen oder Schriftgrößen eingeführt. So gibt es beispielsweise eine Variable "margin-normal" für den einfachen Abstand zwischen zwei Views oder Viewgroups oder ein Font-Größenangabe für Fließtext ("FloatingText"). Definiert werden die Variablenwerte im XML "Dimens.xml" im Ordner Values. Dies müsste im weiteren Verlauf der Entwicklung noch an einigen Stellen angepasst werden.
+
+Auch Labels der Activities wurden in einer XML-Datei "strings.xml" hinterlegt, um so wenig direkten Text wie möglich zu haben. Dies würde z. B. eine spätere Übersetzung einfacher machen, welche ja für eine interantionale Zielgruppe sinnvoll wäre.  
+
+Auch die Kategorien für die Location-Definition sind in einer XML-Datei ("") gespeichert. Wir haben uns dazu entschlossen, nicht die Kategorie-Informationen der Google-Api zu nutzen. Dies hat zum einen den Vorteil, dass  wir unsere Orte explizit auf die eingeschränkte Nutzergruppe anpassen können. Zum anderen haben wir durch die XML-Datei die Möglichkeit, die Liste schnell zu erweitern. 
+
+Alle Layouteinstellungen wurden nur für die vertikale Ausrichtung des Smartphones festgelegt, genauer genommen wurde "sensorPortrait" eingestellt, um auch eine Ansicht zu ermöglichen, wenn der Nutzer das Handy um 180° dreht. Eine Layoutanpassung an die horizontale Ausrichtung müsste in einer zweiten Entwicklungsphase ergänzt werden. 
+
+
+
+# Anforderungen an die Anwendung
+Die Anwendung setzt die Funktionalitäten von mindestens Android 5 (API-Level 21) voraus. <!--Dies hängt vor allem auch mit der Nutzung von NFC zusammen.--> 
+
+Laut einer Studie vom Januar 2018 liegt der Marktanteil der Android-Smartphones mit Versionen höher als 5.0 weltweit bei 80,7 %. ![Marktanteil der Android-Versionen an allen Geräten mit Android OS weltweit im Zeitraum 02. bis 08. Januar 2018 (Quelle: https://de.statista.com/statistik/daten/studie/180113/umfrage/anteil-der-verschiedenen-android-versionen-auf-geraeten-mit-android-os/, Zugriff: 24.01.2018)](C:\Users\Rebecca Durm\AndroidStudioProjects\wanderlust\res\statistik-android-apps.jpg)
+
+
+
+### Navigation
+
+Bei der Navigation zwischen den Listen, der Karte und den Settings in der Home-Activity haben wir uns für eine Bottom-Navigation entschieden. Dies hat folgende Gründe: Zum einen dienen die einzelnen Views vorwiegend zur Darstellung der Informationen: einer Liste über die eingene Orte, eine Liste über die Freunde und eine Karte, in der die beiden Informationen dargestellt werden. Die Menge der  Top-Level-Views ist also deshalb geringer. Dies ist vor allem im Smartphone-Bereich eine geläufige Navigationsstruktur und somit nahe am Nutzungsverhalten, welches der Nutzer auch in anderen Apps anwendet, beispielsweise bei der Smartphone-App von Youtube (Version 13) 
+
+[^1]: Quelle:  https://material.io/guidelines/patterns/navigation.html#navigation-patterns
+
+  Die alternative Navigation mit Tabs wurde ausgeschlossen, weil die Swipe-Gesten, die für das Navigieren zwischen den Tabs genutzt wird, auch für das View der Map genutzt wird. Es kann zu Verwirrung kommen und wird auch vom Material Design nicht empfohlen
+
+[^2]: Quelle: https://material.io/guidelines/components/tabs.html
+
+
 # Backend
 
 Das Wanderlust-Backend ist ein Web-Service zur Verwaltung von Usern, Locations und Administratoren, sowie entsprechenden Abhängigkeiten. Es wird sowohl von der Android-App als auch vom Administations-Frontend verwendet. Ansprechbar ist es über eine REST-konforme Schnittstelle.
@@ -256,3 +343,21 @@ Im Frontend wird, wie im Backend auch, der Airbnb ...
 # Mögliche Features
 
 Freunde aus Kontaktliste vorschlagen
+
+
+
+#Ausblick
+
+## Offline-Verhalten
+
+In einem so speziellen Nutzungszenario wie das beim Backpacking wäre eine umfangreiche Offlinezugänglichkeit von Nöten. Im jetzigen Stand der Entwicklung wird abgefangen, ob der Nutzer online ist. Falls er es nicht ist, werden in den Fragmenten "MyLocation" bzw. "My Friends" eine Ansicht mit "You're not connected to the internet" und dem traurigen Rucksack eingeblendet. 
+
+Das Hinzufügen eines Freundes über NFC funktioniert schon offline, in dem die auszutauschenden User-Ids im Shared-Preferences-Speicher des Smartphones gespeichert werden. Der Request an die Api-Schnittstelle startet, wenn der Nutzer die Home-Activity aufruft und wieder eine Internetverbindung besteht. Nach erfolgreichem Senden des Requests wird die String-Variable in den Shared Preferences gelöscht. 
+
+Wünschenswert wäre eine Offlinespeicherung aller Daten auf dem Gerät. Dies hätte den Vorteil, dass alle Locations bzw. Freunde auch offline angezeigt werden können. In diesem Zusammenhang müsste auch eine geeignete Datenbank angelegt werden können, die die Daten aus MongoDB in der entsprechenden Struktur speichert. Abhängig von der Verbindung würden entweder die Daten aus dem Backend nachgeladen und aktualisiert oder die zwischengespeicherten Daten angezeigt werden. Beispielsweise könnte man sich über die Umsetzung mit einer SQLite-Datenbank Gedanken machen. 
+
+## Pushbenachrichtigungen beim Teilen der Location-Listen
+
+Bisher wird eine Push-Benachrichtigung geschickt, wenn der Nutzer seine Locations via Email einem anderen Nutzer freigegeben hat. Falls der Nutzer diese Nachricht wegwischen würde, ohne auf "I want to share my locations too" zu drücken, hat er momentan keine Möglichkeit, dies nachträglich zu tun. 
+
+In der weiteren Entwicklung würde man die Push-Benachrichtungen ausweiten und Funktionalitäten so anpassen, dass innerhalb der App eine Sektion zeigt, mit wem man seine Locations geteilt hat, wer davon sich auch in meiner Freundesliste befindet und die Anfragenverwaltung, ob die Freigabe zu einem späteren Zeitpunkt erfolgen soll. 
