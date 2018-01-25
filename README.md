@@ -1,68 +1,30 @@
-# Konzept
-**Anmerkung**: In folgendem Bericht wurde das generische Maskulin verwendet (z. B. Nutzer), um die Leserlichkeit des Textes zu erhöhen. Es impliziert gleichermaßen die weibliche Form (Nutzerin). 
+**Anmerkung**: Diese Dokumentation verwendet das generische Maskulin (z. B. Nutzer) um die Lesbarkeit des Textes zu erhöhen. Es impliziert gleichermaßen die weibliche Form (Nutzerin).
 
-## Zweck und Ziel der Anwendung
-Die Applikation "Wanderlust - The personal way to backpack" richtet sich and Backpacker. Die App soll dabei helfen, auf der Reise besuchte Orte zu speichern, zu verwalten, Erfahrungen über besuchte Örtlichkeiten mit anderen Backpackern auf der Reise auszutauschen und so seine Reiseroute individuell auf Basis eines Bekannten zu planen und anzupassen. Durch die Anwendung haben Backpacker die Möglichkeit, nicht nur selbst ihre besuchten Orte zu verwalten, sondern auch Empfehlungen von anderen Backpackern, die sie auf ihrer Reise treffen, mit in ihre Reiseplanung einzubinden. Es wird die Tatsache, dass sich Backpacker als meist sehr kommunikativ erweisen, genutzt, und mit ihrem Wunsch, schöne Orte zu entdecken, verbunden. 
+Wanderlust ist eine App für Backpacker. Sie soll ihnen dabei helfen interessante Orte zu finden, indem sie ihre Lieblingsorte mit anderen Backpackern teilen. Dabei steht der persönliche Kontakt im Vordergrund. Backpacker teilen ihre Lieblingsorte nur mit Personen, die sie persönlich getroffen haben. Das erhöht die Relevanz der Empfehlungen und schränkt die Reizüberflutung an, denen Backpackern in einer neuen Stadt sowieso ausgesetzt sind.
 
-## Nutzungsszenario/Anwendungsgebiet
+An der App sind drei Komponenten beteiligt. Es gibt die eigentliche App, welche vom Nutzer verwendet wird, eine Administrationsoberfläche, sowie ein Backend, in dem die gesamten Daten verwaltet werden und das über eine Schnittstelle von den anderen beiden Komponenten ansprechbar ist. Jede dieser Komponente befindet sich in einem eigenen Repository. Im Folgenden sollen diese Komponenten näher beschrieben werden.
 
-Für die Nutzung der App muss sich jeder mit einem Google-Konto anmelden. Jeder Backpacker speichert während seiner Reise die Orte, die er besucht hat, in einer persönlichen Liste. Dabei kann er die Orte verschieden beschreiben, beispielsweise mit verschiedenen Kategorien (z.  B. Restaurants, Bars, Museen Aussichtspunkt), einem Freitextfeld und mehreren Bilder, welche er entweder direkt mit der Kamera aufnimmt oder aus der Galerie auswählen kann. Die Orte werden dabei nicht nur in einer Listenform angezeigt, sondern können auch auf einer Kartenansicht betrachtet werden. Für ihn besondere Orte kann der Backpacker als Favorit markieren. 
+# Android-Anwendung
 
-Während der Reise treffen Backpacker auf Gleichgesinnte und unterhalten sich mit verschiedenen Menschen aus unterschiedlichen Ländern über ihre bisherigen Erlebnisse. Damit sie sich die Orte merken können, die angesprochen werden, können sie ihre Favoriten-Liste per NFC austauschen. Falls einem Handy kein NFC zur Verfügung steht, ist auch ein Austausch dieser Informationen über die Emailadresse möglich. Nach dem Austausch der Daten bleiben die Backpacker, auch wenn sie sich auf getrennte Wege begeben, miteinander verbunden. 
+In diesem Kapitel setzen wir uns präzise mit allen Einzelheiten der Android-Applikation auseinander.Dabei wird auf die Struktur des Projekts eingegangen: Wie sieht die Ordnerstruktur aus? Welche Packages gibt es? Welche Klassen gibt es und was ist ihre Daseinsberechtigung? Das Kapitel soll zukünftigen Entwicklern auf möglichst einfache Art und Weise einen Gesamtüberblick über das Projekt verschaffen und ihnen ermöglichen, bestimmte Details nachzuschlagen.
 
+## Funktionalität
 
+Die Android-Anwendung ist die Komponente, die tatsächlich direkt vom Nutzer verwendet wird. Eine ensprechende Webanwendung ist derzeit nicht vorgesehen, ließe sich aber aufgrund der losen Kopplung zwischen REST API und Android-Anwendung relativ problemlos dem Gesamprodukt hinzufügen.
 
-## Zielgruppe
+Mithilfe der Android-Anwendung können Nutzer Orte über Google Maps auswählen, diese mit einem Kommentar, Bildern sowie verschiednen Tags versehen und abspeichern. Gespeicherte Orte können dann als Favoriten markiert werden, um zu signalisieren, dass diese Orte mit Freunden geteilt werden sollen. Gespeicherte Orte lassen sich zum einen in Form einer Liste darstellen, zum anderen können sie aber auch in einer Kartenansicht eingesehen werden.
 
-Die Anwendung sieht als Hauptzielgruppe Backpacker vor. Backpacker sind meist junge Menschen zwischen 18 und 33, die für eine längere Zeit ein oder mehrere Länder in Selbstorganisation bereisen. Dabei haben sie keinen fest definierten Startpunkt, sondern reisen nicht linear von einem Ziel zum anderen. Dabei sind sie häufig daran interessiert, Bewohner des Landes, aber auch Mitreisende kennenzulernen und ihre Erfahrungen mit ihnen zu teilen.
-
-[^1]: Biesalski, Constanze (2009): Backpacking @ Latin America - The Role of Communikcation, Mobility, and ICTs. Universität Salzburg. Fachbereich Kommunikationswissenschaften. Magisterarbeit (S. 53-56) https://s3.amazonaws.com/ALoB/Biesalski_Backpacking+%40+Latin+America.pdf 
-
-Backpacker bereisen oft mehrere Länder, bevorzugt in Asien, Australien und Neuseeland. Dabei bleiben sie häufig nur wenige Tage an einem Ort, da es vorwiegend darum geht, ein Land zu durchqueren, neue Kulturen kennen zu lernen und auf der Reise Erfahrungen zu sammeln. 
-
-[^2]: Biesalski, Constanze (2009): Backpacking @ Latin America - The Role of Communikcation, Mobility, and ICTs. Universität Salzburg. Fachbereich Kommunikationswissenschaften. Magisterarbeit (S. 63-65) https://s3.amazonaws.com/ALoB/Biesalski_Backpacking+%40+Latin+America.pdf
-
-## Mögliche Erweiterungen des Konzeptes
-
-Bisher ist es nicht angedacht, dass die Nutzer außerhalb des Location-Austausches miteinander kommunizieren. In Zukunft könnte geprüft werden, ob auch eine Chatfunktion eine Option für die Anwendung wäre, um mit den Leuten in Kontakt zu bleiben, die sich auf einer Reise kennengelernt haben. Die gebildete Community hätte ein gemeinsames Interessensgebiet und würde ein eigenes Netzwerk bilden. Dies könnte wiederum dazu führen, dass sich Backpacker über die Anwendung verabreden. 
-
-Um zu verhindern, dass von einer Stadt oder einem Land sich zu viele Empfehlungen ansammeln, muss darüber nachgedacht werden, ob es sinnvoll ist, die Anzahl der Favoriten dabei zu begrenzen. In ersten Überlegungen könnte ein Maximum von 5 Favoriten pro Stadt und 20 pro Land sinnvoll sein. 
-
-Sinnvoll wäre es auch, den Freund über eine Aktualisierung seiner Locations über weitere Push-Notificatoins zu informieren. Wenn die Verbindung einmal hergestellt ist, soll der Backpacker immer die aktuelle Liste bzw. Karte sehen mit den eingetragenen Favoriten seiner Backpacker-Bekanntschaften. Eine weitere Funktionalität könnte auch sein, den aktuellen Standort den “Freunden” mitzuteilen und aktiv eine Nachricht an alle Freunde zu schicken. 
-
-Bei der Ansicht auf der Karte bzw. der Liste könnte ein weiterer Filter eingebaut werden, um nach eingetragenen Metadaten zu filtern, also z. B. nach Kategorien.  
-
-# App
-
-# Android Anwendung
-
-In diesem Kapitel setzen wir uns präzise mit allen Einzelheiten der Android Applikation auseinander. Zum einen wird auf die Struktur des Projekts eingegangen: Wie sieht die Ordnerstruktur aus? Welche Packages gibt es? Welche Klassen gibt es und was ist ihre Daseinsberechtigung? Das Kapitel soll zukünftigen Entwicklern auf möglichst einfache Art und Weise einen Gesamtüberblick über das Projekt zu bekommen, sowie ihm die Möglichkeit bieten, bestimmte Details zeitsparend nachschlagen zu können. 
-
-
-
-## Zusammenfassung
-
-Die Android Applikation bildet im Rahmen unseres Projektes das Hauptprodukt für den Nutzer. Eine in Funktionalität vergleichbare Webapplikation ist derzeit nicht vorgesehen, ließe sich aber aufgrund der wiederverwendbaren REST API basierend auf Node JS jedoch problemlos dem Gesamtprodukt hinzufügen. Die Android Anwendung ermöglicht es dem Nutzer Orte aus Google Maps auszuwählen, mit einem Kommentar sowie einem Bild zu versehen und in einer Liste zu speichern. Die Ortsliste kann sowohl in Listenform als auch in einer Kartenansicht durch Marker angezeigt werden. Der Nutzer hat die Möglichkeit Orte als Favorit zu markieren. 
-
-Der Nutzer kann wahlweise per NFC oder E-Mail seine gespeicherten Orte mit Freunden teilen. Dadurch erhält dieser Zugriff auf die Favoritenliste des Nutzers. Die Favoritenlisten von Freunden werden nach Änderungen automatisch aktualisiert. Favoritenlisten von Freunden können in Listenform oder in der Kartenansicht betrachtet werden, wobei es auf der Mapansicht möglich ist Favoritenlisten von mehreren Freunden gleichzeitig zu betrachten. Auf der Kartenansicht lassen sich Ortsmarker explizit nach Freunden filtern. 
+Um seine Favoriten-Liste mit anderen Backpackern zu teilen kann der Nutzer diese als Freund hinzufügen. Das kann über NFC oder über eine E-Mail-Adresse geschehen. Sobald einem Zugriff auf die Orte eines anderen Backpackers gewährt wurde, werden diese gemeinsam mit den Orten anderer Freunde auf einer Karte angezeigt. Dabei lassen sich über einen Filter die Orte bestimmter Freunde ausblenden. Klickt man auf einen Marker auf der Karte, erhält man die Kommentare und Bilder aller Freunde, die diesen Ort in ihrer Favoritenliste haben.
 
 Für jeden gespeicherten Freund gibt es eine Detailansicht, die Daten des Nutzers und seine favorisierten Orte anzeigt. Zudem wird eine Möglichkeit geboten, die Orte nach zugehörigem Staat zu filtern. 
 
-Für jeden Ort exisitert zudem eine Detailansicht, die einen Überblick über die Daten des gespeicherten Ortes wie Beschreibung oder Kategorie gewährt. 
-
-Alle relevanten Nutzer- und Ortdaten werden im Backend in einer MongoDB Datenbank gespeichert.
-
-
-
 ## Projektstruktur
 
-Im diesem Kapitel wird die Struktur des Projektes untersucht. Dabei wird auf den Aufbau der Ordner- und Packagestruktur eingegangen, sowie die Zuständigkeit der verschiedenen Klassen beleuchtet. Sehr bedeutend ist hierfür auch eine kurze Beschreibung der Funktionalität der einzelnen UI-Komponenten wie Activities und Fragments.
-
-
+Im Folgenden soll der Aufbau der Android-Anwendung näher beschrieben werden. Dabei wird auf die Ordner- und Packagestruktur eingegangen, sowie die Zuständigkeit der verschiedenen Klassen beleuchtet. Sehr bedeutend ist hierfür auch eine kurze Beschreibung der Funktionalität der einzelnen UI-Komponenten wie Activities und Fragments.
 
 ### Berechtigungen
 
-In der Datei *AndroidManifest.xml* werden die benötigten Berechtigungen angegeben. Diese werden dem Smartphonebesitzer angezeigt, sobald er sich die App aus dem Play Store herunterladen will. Die Berechtigungen werden benötigt, um auf bestimmte Sensoren oder Funktionen des Handys zuzugreifen.
+In der Datei *AndroidManifest.xml* werden die benötigten Berechtigungen definiert. Diese werden dem Smartphonebesitzer angezeigt, sobald er sich die App aus dem Play Store herunterladen will. Die Berechtigungen werden benötigt, um auf bestimmte Sensoren oder Funktionen des Handys zuzugreifen.
 
 Die Berechtigungen werden in der Form
 
@@ -70,14 +32,14 @@ Die Berechtigungen werden in der Form
 
 | Berechtigung           | Für welche Funktion?                     |
 | ---------------------- | ---------------------------------------- |
-| INTERNET               | Kommunikation übers Internet uum Backend und zu Google APIs. |
-| ACCESS_NETWORK_STATE   | Einholen von Informationen über das Netzwerk: z.B. zur Prüfung, ob das Handy eine Netzwerkverbindung besitzt. |
+| INTERNET               | Kommunikation über das Internet mit dem Backend und den Google APIs. |
+| ACCESS_NETWORK_STATE   | Einholen von Netzwerkinformationen, um z.B. herauszufinden ob eine Internetverbindung besteht. |
 | ACCESS_FINE_LOCATION   | Zugriff auf die genaue Position des Handys: Wichtig für den *PlacePicker*. |
-| WRITE_EXTERNAL_STORAGE | Schreibzugriff auf den externen Speicher: Zum Speichern der aufgenommenen Bilder im Speicher, um sie daraufhin hochladen zu können. |
+| WRITE_EXTERNAL_STORAGE | Schreibzugriff auf den externen Speicher: Zum Speichern der aufgenommenen Bilder in den Speicher, um sie daraufhin hochladen zu können. |
 | READ_EXTERNAL_STORAGE  | Lesezugriff auf den externen Speicher: Zum Abrufen der aufgenommenen Bilder oder zum Auswählen von bereits gespeicherten Bildern für das eigene Profil oder eine neue Location. |
 | NFC                    | Zugriff auf NFC Funktionen: Zum Hinzufügen neuer Freunde. |
 
-Ab Android 6.0 muss, um auf den externen Speicher zuzugreifen, ebenso bei Runtime eine Berechtigung vom Nutzer eingeholt werden. Dies gilt für alle als gefährlich eingestuften Berechtigungen. Siehe hierzu diesen [Leitfaden](https://developer.android.com/training/permissions/requesting.html). 
+Ab Android 6.0 muss, um auf den externen Speicher zuzugreifen, eine zusätzliche Berechtigung zur Laufzeit eingeholt werden. Dies gilt für alle als gefährlich eingestuften Berechtigungen. Siehe hierzu diesen [Leitfaden](https://developer.android.com/training/permissions/requesting.html). 
 
 Zudem wird im Manifest angegeben, welche Features die App verwendet. Dies wird in der Form 
 
@@ -85,10 +47,8 @@ Zudem wird im Manifest angegeben, welche Features die App verwendet. Dies wird i
 
 | Feature | Für welche Funktion?                     |
 | ------- | ---------------------------------------- |
-| nfc     | Siehe oben                               |
+| nfc     | Hinzufügen von Freunden                  |
 | camera  | Aufnehmen von Profilbildern oder Bilder, die man einem Ort hinzufügen kann. |
-
-
 
 ### Ordnerstruktur
 
@@ -142,15 +102,9 @@ Die Bedeutung der Ordner innerhalb */res* ist in der Regel selbsterklärend und 
 
 Viel interessanter sind jedoch die, individuell für dieses Projekt erstellte, Strukture der Packages innerhalb des */java* Ordners. Diese Struktur wurde unabhängig von Vorgaben auf Basis von Entscheidungen der Entwickler festgelegt, um um eine möglichst eindeutige Spaltung des Quellcodes in verschiedene Aufgabenbereiche zu gewährleisten. Die Vorgabe des standardmäßigen Android Projektes ist, im Vergleich zum Ressourcen-Ordner, nur einzelnes Package.
 
-
-
-
-
 ### Java Packages
 
 Das *Java-Package*, das den gesamten Java-Quellcode enthält besteht aus mehreren Packages, die sich mit jeweils unterschiedlichen Teilen der Logik befassen.   
-
-
 
 ####activities
 
@@ -170,8 +124,6 @@ In folgender Tabelle werden die einzelnen Activities kurz beschrieben. Um eine d
 | AddFriendNfcActivity    | Durch eine NFC-Verbindung wird eine digitale Freundesbeziehung zweier Nutzer aufgebaut. Bei der Übertragung werden nur die jeweiligen User-IDs ausgetauscht. Die Freunde werden durch einen Request zum Backend hinzugefügt. Dadurch werden die Nutzer nun in der Freundesliste und deren Orte auf der Karte des jeweils Anderen angezeigt. Im Vergleich zur *AddFriendEmailActivity* wird in diesem Vorgehen auf jeden Fall eine bidirektionale Freundschaftsbeziehung aufgebaut, d.h. beide Nutzer teilen ihre Orte mit dem anderen. |
 | AddFriendEmailActivity  | Diese Activity dient als "Fallback", falls eines der Geräte der Nutzer, die ihre Orte miteinander tauschen wollen, kein NFC besitzen, oder falls keine unmittelbare räumliche Nähe der beiden Nutzer besteht. Zu ihr wird automatisch weitergeleitet, wenn das Handy kein NFC besitzt. Außerdem ist sie über einen Button in der *AddFriendNfcActivity* erreichbar. Es kann anhand einer E-Mail-Adresse kann nach einem anderen Nutzer gesucht werden. Nach einer erfolgreichen Suche wird der Name und das Profilbild des Gesuchten angezeigt. Über einen Button kann der Nutzer mit diesem seine Favoritenliste teilen. Der andere Nutzer wird daraufhin (via *Push Notification*) davon benachrichtigt und kann nun ebenfalls seine Orte teilen. |
 | EditProfileActivity     | Die aktuellen Nutzerdaten (inklusive Profilbild) werden hier angezeigt, sodass der Nutzer über eine Eingabefläche seinen Vor- und Nachnamen ändern, ein Profilbild hinzufügen oder das bestehende ändern kann. |
-
-
 
 ####fragments
 
@@ -215,13 +167,9 @@ Das Package *services* enthält mehrere Klassen, die von bestimmten Services erb
 
 Dieses Kapitel befasst sich mit den clientseitigen Modelklassen. Diese Objekte stehen repräsentativ für Objekte der realen Welt. Innerhalb des Projektes wird vielmals auf diese Klassen zugegriffen, um somit einen einfach zu schreibenden und gut lesbaren Code zu ermöglichen. Die Models im Android Projekt besitzen zwar ihr passendes Gegenstück im Backend, jedoch sind sie nicht untrennbar miteinander verbunden und können Unterschiede zu den Models im serverseitigen Code aufweisen. Von großer Bedeutung sind die Models auch aus dem Grund, dass die Bibliothek *Gson* auf sie zugreift, um die in JSON formatierte Antwort des Servers in handhabbare Objekte zu verwandeln.
 
-
-
 ### User
 
 Das *User* Model repräsentiert einen Menschen im echten Leben. Das Model kann im Rahmen des Projektes jedoch auf verschiedene Arten genutzt werden. Zum einen ist der aktuelle Nutzer ein User, zum Anderen sind dies auch seine Freunde. Ein User besteht nicht nur aus einfacheren Daten wie seines Vornamens und Nachnamens, sondern er besitzt auch eine Liste von Orten (sogenannten Locations, siehe nächstes Kapitel), oder ein Profilbild. Das Bild ist eine einfache URL, die benutzt werden kann, um das Profilbild des Users herunterzuladen und anzuzeigen. Die zum Model dazugehörige Klasse bietet alle nötigen Getter-Methoden, um auf die Felder zugreifen zu können.
-
-
 
 ### Location
 
@@ -238,19 +186,13 @@ Das *Location* Model repräsentiert einen x-y-beliebigen Ort in der Welt. Die Lo
 
 Die Location Objekte können unabhängig vom User (also nicht als Liste innerhalb des User Objektes) auftreten. Zum Beispiel können Requests zu bestimmten Endpunkten der API geschickt werden, die lediglich eine oder mehrere Locations zurückliefern. Hier will man möglicherweise zusätzlich Daten des Users erhalten können, weswegen ein Verweis auf diesen (in Form einer Id) von Nöten ist. Außerdem ist dieser Verweis von Bedeutung, wenn eine neue Location erstellt wird, da ihr nun die Id des Nutzers hinzugefügt und dieses "Paket" an den Server geschickt werden kann. 
 
-
-
 ## Besonderheiten
 
 In diesem Kapitel werden verschiedene herrausstechende Funktionalitäten, die in die Applikation integriert sind, beschrieben. 
 
-
-
 ### Bibliotheken und APIs
 
 In den folgenden Kapiteln wird auf die verschiedenen Bibliotheken eingegangen, die von den Entwicklern benutzt wurden, um bestimmte Probleme zu lösen oder die Implementierung von Funktionalität zu vereinfachen.
-
-
 
 #### Glide
 
@@ -268,8 +210,6 @@ RequestOptions requestOptions = new RequestOptions()
   	.skipMemoryCache(true);
 Glide.with(context).load(url).apply(requestOptions).into(imageView);
 ```
-
-
 
 #### Gson
 
@@ -302,13 +242,9 @@ Location location = new Location(
                 String locationJson = gson.toJson(location);
 ```
 
-
-
 #### Firebase Cloud Messaging
 
 Für die Integration von Push Notifications vom Server zum Android Client wird die *[Cloud Messaging](https://firebase.google.com/docs/cloud-messaging/ )* Bibliothek von *Firebase* (mittlerweile Teil von Google) verwendet. FCM hat *Google Cloud Messaging* als die von Google empfohlene Lösung zur Synchronisation von Server und Client abgelöst. Für Details zur Verwendung und Implementierung lesen sie bitte das Kapitel Push Notifications.
-
-
 
 #### PlacePicker
 
@@ -386,8 +322,6 @@ Nicht zu vergessen ist die Angabe des in der Google Console kreierten API Keys i
     android:value="AIzaSyA9yABz8sHgpRXtGuwzkgbEMY4HbqLpUwg" />
 ```
 
- 
-
 #### Google Sign In
 
 Für die Authentifizierung des Nutzers verwenden wir Google OAuth. Die dafür notwendige Logik befindet sich in der *LoginActivity*. In der *onCreate* Mehtode wird Google Sign In konfiguriert:
@@ -431,8 +365,6 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 ```
 
 In der aufgerufenen Methode *handleSignInResult* wird daraufhin der ID Token persistent auf dem Gerät gespeichert und ein Request an den Server geschickt, um den Nutzer, falls er noch nicht existiert, zu erstellen. 
-
-
 
 ### NFC
 
@@ -511,8 +443,6 @@ public void onResume() {
 
 Die Methode *handleNfcIntent* liest daraufhin die Daten (die Id des anderen Nutzers) und sendet einen Request an den Server, um die "Freundesbeziehung" zu begründen.
 
-
-
 ### Push Notifications
 
 Wie bereits angedeutet, wird für die Funktionalität die Cloud Messaging Lösung von Firebase verwendet. Um die Umsetzung der Funktionalität kümmern sich zwei Klassen im Package *services*. 
@@ -547,8 +477,6 @@ Im aktuellen Stand des Produktes verwenden wir Push Benachrichtigungen an zwei S
 Wenn der Nutzer seine Orte in der *AddFriendEmailActivity* mit einem zweiten Nutzer teilt, so soll dieser benachrichtigt werden. Hier kommt auch die visuelle Benachrichtigung, die im letzten Absatz beschrieben wurde, ins Spiel. Diese Benachrichtigung enthält einen Button "Share your's, too", der dem zweiten Nutzer die Möglichkeit gibt direkt ebenfalls seine Orte zu teilen. Dies läuft über den dritten Service im services Package, den *NotificationActionService*, der einen *IntentService* erweitert. Hier wird ein Request an den Server gesendet durch den der Nutzer seine Orte nun auch teilt. 
 
 Die zweite Anwendung der Push Notification Funktion von Firebase ist das Hinzufügen eines Freundes via NFC. Da uns bei der Übertragung durch NFC, ohne zu große negative Beeinflussung der User Experience, nur eine unidirektionale Übertragung möglich ist, dient uns die Möglichkeit der Push Notifications als Lösung dieses Problems. Das Initiator-Gerät der NFC Verbindung schickt die Id seines Users and das zweite Gerät. Dieses sendet nun einen Request an den Server, um die Orte seines Nutzers zu teilen. Das Backend verarbeitet diese Anfrage und schickt daraufhin eine Push Benachrichtigung mit der Id des Nutzers des zweiten Gerätes an das Initiator-Gerät, das nun wiederum einen Request zum Teilen der Orte absendet. Dies läuft jedoch alles im Hintergrund ab (hier wird im Vergleich zum vorherigen Anwendungsfall keine visuelle Benachrichtigung angezeigt), sodass die Nutzer davon nichts mitbekommen, um so eine möglichst reibungslose Nutzererfahrung zu gewährleisten. Dieses etwas kompliziert erscheinende Verfahren ist nötig, um die Sicherheit der Rest API mit einer definierten Authentifizierungsstrategie zu kompromittieren. Jeder User darf nämlich nur seine Orte mit einem anderen teilen, jedoch nicht umgekehrt. Für die Details siehe hierzu das Kapitel, das sich mit der Implementierung des Backends befasst.
-
-
 
 ### Offline-Nutzung
 
@@ -589,14 +517,10 @@ Auch die Kategorien für die Location-Definition sind in einer XML-Datei ("") ge
 
 Alle Layouteinstellungen wurden nur für die vertikale Ausrichtung des Smartphones festgelegt, genauer genommen wurde "sensorPortrait" eingestellt, um auch eine Ansicht zu ermöglichen, wenn der Nutzer das Handy um 180° dreht. Eine Layoutanpassung an die horizontale Ausrichtung müsste in einer zweiten Entwicklungsphase ergänzt werden. 
 
-
-
 # Anforderungen an die Anwendung
 Die Anwendung setzt die Funktionalitäten von mindestens Android 5 (API-Level 21) voraus. <!--Dies hängt vor allem auch mit der Nutzung von NFC zusammen.--> 
 
 Laut einer Studie vom Januar 2018 liegt der Marktanteil der Android-Smartphones mit Versionen höher als 5.0 weltweit bei 80,7 %. ![Marktanteil der Android-Versionen an allen Geräten mit Android OS weltweit im Zeitraum 02. bis 08. Januar 2018 (Quelle: https://de.statista.com/statistik/daten/studie/180113/umfrage/anteil-der-verschiedenen-android-versionen-auf-geraeten-mit-android-os/, Zugriff: 24.01.2018)](C:\Users\Rebecca Durm\AndroidStudioProjects\wanderlust\res\statistik-android-apps.jpg)
-
-
 
 ### Navigation
 
@@ -611,13 +535,13 @@ Bei der Navigation zwischen den Listen, der Karte und den Settings in der Home-A
 
 # Backend
 
-Das Wanderlust-Backend ist ein Web-Service zur Verwaltung von Usern, Locations und Administratoren, sowie entsprechenden Abhängigkeiten. Es wird sowohl von der Android-App als auch vom Administations-Frontend verwendet. Ansprechbar ist es über eine REST-konforme Schnittstelle.
+Das Wanderlust-Backend ist ein Web-Service zur Verwaltung von Usern, Locations und Administratoren, sowie entsprechender Beziehungen. Es wird sowohl von der Android-App als auch von der Administations-Oberfläche verwendet. Ansprechbar ist es über eine REST-konforme Schnittstelle.
 
 ## Anleitung
 
-Um das Bakend lokal auf einem Rechner auszuführen können die folgenden Schritte ausgeführt werden. Die Dokumentation geht dabei davon aus, dass alle Komponenten des Backends auf dem Rechner selbst ausgeführt werden. Um beispielsweise eine deployte Datenbank zu verwenden muss die entsprechende Konfigirationsdatei angepasst werden. Auch für ein Deployment in Production müssen Konfigurationen durchgeführt werden.
+Um das Backend lokal auszuführen sind folgende Schritte notwendig:
 
-Bevor das Backend ausgeführt werden kann müssen folgende Abhängigkeiten installiert werden:
+Zuerst müssen folgende Abhängigkeiten installiert werden:
 
 * Node.js
 * NPM
@@ -628,7 +552,7 @@ Daraufhin kann das Backend installiert werden:
 1. Das Repository klonen.
 2. `npm install` ausführen.
 
-Anschließend kann das Backend gestartet werden:
+Schließlich kann das Backend gestartet werden:
 
 1. Stelle sicher, dass die MongoDB-Instanz läuft. 
 2. Führe `npm start` aus.
@@ -643,7 +567,7 @@ Das Design des Backends orientiert sich an folgenden Eigenschaften, die erreicht
 - Sicherheit
 - Skalierbarkeit
 
-Bei dem Backend handelt es sich um eine Node.js-Anwendung. Für die Definition von Endpunkten wird Express.js eingesetzt. Als Datenbank kommt MongoDB zum Einsatz und zur Authentifizierung wird Passport.js verwendet. Weitere verwendete Technologien werden im Laufe dieser Dokumentation vorgestellt.
+Bei dem Backend handelt es sich um eine Node.js-Anwendung. Weitere wichtige Technologien werden im Laufe der Dokumentation erwähnt.
 
 ### Projektstruktur
 
@@ -664,7 +588,7 @@ Bei dem Backend handelt es sich um eine Node.js-Anwendung. Für die Definition v
         └───user
 ```
 
-Im Root-Verzeichnis befinden sich Konfigurationsdatein für Editor Config und ESLint, sowie die Swagger-Spezifikation, eine .gitignore-Datei, die package.json und package-lock.json.
+Im Root-Verzeichnis befinden sich Konfigurationsdateien für Editor Config und ESLint, sowie die Swagger-Spezifikation, eine .gitignore-Datei, die package.json und package-lock.json.
 
 Unter */config* werden alle Konfigurationsdateien abgelegt. Diese werden mit Ausnahme der *default.json* nach der Umgebung benannt, für die sie gelten sollen.
 
@@ -676,11 +600,13 @@ Unter */src/middleware* befindet sich die projektspezifische Middleware, also so
 
 Unter */src/models* befinden sich die Mongoose-Models mit ihren Schemata. Unter */src/routes* werden die Enpunkte definiert. Im Verzeichnis */src/schemas* befinden sich Joi-Schemata für die Request-Validierung.
 
+Eine wichtige Datei ist außerdem */src/index.js*. Sie stellt den Eintrittspunkt in die Anwendung dar und initialisiert die Express.js-Anwendung.
+
 Im Repository befindet sich zwar kein Verzeichnis */uploads*, dieses wird aber angelegt, sobald Bilder hochgeladen werden. Hier werden alle Medien, die von Nutzern hochgeladen werden, gesichert.
 
 ### Schnittstellen
 
-Die Schnittstellen der API werden als [OpenAPI-Spezifikation](https://github.com/OAI/OpenAPI-Specification) dokumentiert, die sich in der Datei *swagger.yml* im Root-Verzeichnis des Projekts befindet. Ein UI zu dieser Spezifikation ist unter dem Endpunkt */docs* zu erreichen, lokal also unter  [http://localhost:3000/docs](http://localhost:3000/docs). Hier können alle Informationen über die Endpoints eingesehen werden, sowie Requests ausprobiert werden. Um dieses UI bereitzustellen wird die Middleware [swagger-ui-express](https://github.com/scottie1984/swagger-ui-express) eingesetzt. Im Gegensatz zur offiziellen UI-Middleware kommt diese ohne manuell aufzulösende Abhängigkeiten aus. Da die sich die Spezifikation im Repository befindet enthält jede Version des Backends immer eine passende Dokumentation ihrer API.
+Die Schnittstellen der API werden als [OpenAPI-Spezifikation](https://github.com/OAI/OpenAPI-Specification) dokumentiert, die sich in der Datei *swagger.yml* im Root-Verzeichnis des Projekts befindet. Ein UI zu dieser Spezifikation ist unter dem Endpunkt */docs* zu erreichen, lokal also unter  [http://localhost:3000/docs](http://localhost:3000/docs). Hier können alle Informationen über die Endpoints eingesehen werden, sowie Requests ausprobiert werden. Um dieses UI bereitzustellen wird die Middleware [swagger-ui-express](https://github.com/scottie1984/swagger-ui-express) eingesetzt. Im Gegensatz zur offiziellen UI-Middleware kommt diese ohne manuell aufzulösende Abhängigkeiten aus. Da die sich die Spezifikation im Repository befindet enthält jede Version des Backends immer eine passende Dokumentation ihrer API. Eine Offline-Version dieses UI liegt der Dokumentation bei. 
 
 | Endpoint                                 | Method | Description                              |
 | ---------------------------------------- | ------ | ---------------------------------------- |
@@ -701,7 +627,7 @@ Die Schnittstellen der API werden als [OpenAPI-Spezifikation](https://github.com
 | `/locations/{id}/images`                 | POST   | Upload location images                   |
 | `/location/{locationId}/images/{imageId}` | DELETE | Delete Image                             |
 
-Definiert werden die Schnittstellen mithilfe von Express.js. Die entsprechenden Routen befinden sich im Verzeichnis */src/routes*. Bei der Definition der Endpunkte wird großer Wert auf REST-Konformität gelegt. Die HTTP-Methoden werden dabei so genutzt wie es ihre Spezifikationen vorsehen:
+Definiert werden die Schnittstellen mithilfe von [Express.js](https://expressjs.com/). Die entsprechenden Routen befinden sich im Verzeichnis */src/routes*. Bei der Definition der Endpunkte wird großer Wert auf REST-Konformität gelegt. Die HTTP-Methoden werden dabei so genutzt wie es ihre Spezifikationen vorsehen:
 
 **GET** wird verwendet um Ressourcen vom Backend anzufordern. Es werden dabei keine Ressourcen geändert.
 
@@ -709,13 +635,13 @@ Definiert werden die Schnittstellen mithilfe von Express.js. Die entsprechenden 
 
 **PUT** hingegegen wird verwendet, wenn eine Ressource an der durch die URL definierte Stelle erzeugt werden soll. Damit können neue Ressourcen angelegt werden, aber auch komplette Ressourcen ausgetauscht werden.
 
-**PATCH** kann verwendet werden, wenn Änderungen an einer Ressource vorgenommen werden sollen, ohne die gesamte Ressource auszutauschen. Dabei werden die Daten im Format [JSON Merge Patch](https://tools.ietf.org/html/rfc7386) übergeben. Dieses Format hat einige Nachteile gegenüber dem [JSON Patch](https://tools.ietf.org/html/rfc6902)-Format. So müssen beispielsweise um Daten zu Arrays hinzuzufügen extra Subroutes angelegt werden. Dafür ist bleibt der Request intuitiver und übersichtlicher. Der Content-Type-Header sollte auf *application/merge-patch+json* gesetzt werden um explizit auszudrücken, dass dieses Format verwendet wird. Dadurch wird auch die Möglichkeit offen gehalten in Zukunft andere Formate zu unterstützen, ohne die Backwards-Compability der API zu brechen.
+**PATCH** kann verwendet werden, wenn Änderungen an einer Ressource vorgenommen werden sollen, ohne die gesamte Ressource auszutauschen. Dabei werden die Daten im Format [JSON Merge Patch](https://tools.ietf.org/html/rfc7386) übergeben. Dieses Format hat einige Nachteile gegenüber dem [JSON Patch](https://tools.ietf.org/html/rfc6902)-Format. So müssen beispielsweise um Daten zu Arrays hinzuzufügen extra Subroutes angelegt werden. Dafür ist der Request intuitiver und einfacher zu verarbeiten. Der Content-Type-Header sollte auf *application/merge-patch+json* gesetzt werden um explizit auszudrücken, dass dieses Format verwendet wird. Dadurch wird auch die Möglichkeit offen gehalten in Zukunft andere Formate zu unterstützen, ohne die Backwards-Compability der API zu brechen.
 
 **DELETE** wird verwendet um Ressourcen zu löschen.
 
 ### Modelle
 
-Für die Datenhaltung kommt [MongoDB](https://www.mongodb.com/) zum Einsatz. Diese wird durch Mongoose in das Backend eingebunden, wodurch erweiterte Funktionalitäten zur Verfügung stehen und - besonders wichtig - Schemas definiert werden können. Im Backend gib es drei Datenmodelle: Admin, User und Location. Im Verzeichnis */src/models* werden diese Modelle definiert.
+Für die Datenhaltung kommt [MongoDB](https://www.mongodb.com/) zum Einsatz. Diese wird durch [Mongoose](http://mongoosejs.com/) in das Backend eingebunden, wodurch erweiterte Funktionalitäten zur Verfügung stehen und - besonders wichtig - Schemas definiert werden können. Im Backend gib es drei Datenmodelle: Admin, User und Location. Im Verzeichnis */src/models* werden diese Modelle definiert.
 
 #### Admin
 
@@ -728,17 +654,18 @@ Eine Besonderheit der Admin-Collection ist, dass dort auch Passwörter gehalten 
 
 #### User
 
-| field     | type       | required | default | ref      |
-| --------- | ---------- | -------- | ------- | -------- |
-| googleId  | String     | true     | -       | -        |
-| firstName | String     | true     | -       | -        |
-| lastName  | String     | true     | -       | -        |
-| email     | String     | true     | -       | -        |
-| locations | [ObjectId] | false    | -       | Location |
-| friends   | [ObjectId] | false    | -       | User     |
-| avatar    | String     | false    | -       | -        |
+| field       | type       | required | default | ref      |
+| ----------- | ---------- | -------- | ------- | -------- |
+| googleId    | String     | true     | -       | -        |
+| deviceToken | String     | false    | -       | -        |
+| firstName   | String     | true     | -       | -        |
+| lastName    | String     | true     | -       | -        |
+| email       | String     | true     | -       | -        |
+| locations   | [ObjectId] | false    | -       | Location |
+| friends     | [ObjectId] | false    | -       | User     |
+| avatar      | String     | false    | -       | -        |
 
-Da jede Location einem User zugeordnet ist und ein User mehrere Locations besitzen kann, muss darauf geachtet werden, dass beim Erzeugen der Location, die entsprechende ID im User-Dokument eingetragen wird und dass diese beim Löschen der Location wieder entfernt wird. Beim Hinzufügen eines Freundes muss darauf geachtet werden, dass die Freunde eines Users ausdrücken, welche anderen User ihre Orte für ihn freigegeben haben. Wenn man eine Gegenseitige Freundschaft anlegen will, müssen beide Freundeslisten erweitert werden. Um Freundschaften zu entfernen müssen beide Nutzer aus der jeweilig anderen Liste entfernt werden.
+Da jede Location einem User zugeordnet ist und ein User mehrere Locations besitzen kann, muss darauf geachtet werden, dass beim Erzeugen der Location, die entsprechende ID im User-Dokument eingetragen wird und dass diese beim Löschen der Location wieder entfernt wird. Beim Hinzufügen eines Freundes muss darauf geachtet werden, dass die Freunde eines Users ausdrücken, welche anderen User ihre Orte für ihn freigegeben haben. Wenn man eine gegenseitige Freundschaft anlegen will, müssen beide Freundeslisten erweitert werden. Um Freundschaften zu entfernen müssen beide Nutzer aus der jeweilig anderen Liste entfernt werden.
 
 #### Location
 
@@ -757,9 +684,9 @@ Da jede Location einem User zugeordnet ist und ein User mehrere Locations besitz
 
 ## Authentifizierung und Autorisierung
 
-Die Endpunkte werden so gesichert, dass sie nur von registrierten Nutzern und Administratoren angesprochen werden können (Authentifizierung). Aber auch angemeldete Nutzer dürfen nicht jeden der Endpunkte mit beliebigen Parametern ansprechen (Autorisierung). Die gesamte Authentifzierung und Autorisierung geschieht in den Middleware-Funktionen, die sich unter */src/middleware/auth* befinden. Die Authentifizierung geschieht dabei mithilfe der Authentifizierungs-Middleware Passport.js. Darauf baut dann die Autorisierung auf.
+Die Endpunkte werden so gesichert, dass sie nur von registrierten Nutzern und Administratoren angesprochen werden können (Authentifizierung). Aber auch angemeldete Nutzer dürfen nicht jeden der Endpunkte mit beliebigen Parametern ansprechen (Autorisierung). Die gesamte Authentifzierung und Autorisierung geschieht in den Middleware-Funktionen, die sich unter */src/middleware/auth* befinden. Die Authentifizierung geschieht dabei mithilfe der Middleware Passport.js. Darauf baut dann die Autorisierung auf.
 
-Eine wichtige Middleware-Funktion ist dabei die Methode `init`. In dieser werden Passport.js und verschiedene Strategien initialisiert. Es wird außerdem ein Default-Admin angelegt, falls dieser noch nicht existiert. Dabei wird eine Strategie verwendet um Nutzer anhand ihres Google Tokens zu identifizieren. Dafür wird die Strategie [GoogleIdToken](https://github.com/jmreyes/passport-google-id-token) verwendet. Um Administratoren anhand von Nutzernamen und Passwort zu authentifizieren wird die Strategie [BasicAuthentication](https://github.com/jaredhanson/passport-http) verwendet. Für beide Strategien müssen `verify`-Funktionen implementiert werden. In dieser Funktion wird überprüft ob ein solcher Nutzer existiert und gegebenenfalls das Passwort überprüft. Anschließend wird dann dieser Nutzer auf ein User-Objekt gemapt, das dann an das Request-Objekt angehängt wird, sodass in folgender Middleware darauf zugegriffen werden kann.
+Eine wichtige Middleware-Funktion ist dabei die Methode `init`. In dieser werden Passport.js und verschiedene Strategien initialisiert. Es wird außerdem ein Default-Admin angelegt, falls dieser noch nicht existiert. Dabei wird eine Strategie verwendet um Nutzer anhand ihres Google Tokens zu identifizieren. Dafür wird die Strategie [GoogleIdToken](https://github.com/jmreyes/passport-google-id-token) verwendet. Um Administratoren anhand von Nutzernamen und Passwort zu authentifizieren wird die Strategie [BasicAuthentication](https://github.com/jaredhanson/passport-http) verwendet. Für beide Strategien müssen `verify`-Funktionen implementiert werden. In diesen Funktionen wird überprüft ob ein solcher Nutzer existiert und gegebenenfalls ob das Passwort korrekt ist. Anschließend wird dann dieser Nutzer auf ein User-Objekt gemapt, das dann an das Request-Objekt angehängt wird, sodass in folgender Middleware darauf zugegriffen werden kann.
 
 Strategien, die dafür genutzt werden Endanwender zu authentifizieren können diese Nutzer auch auf Objekte mit denselben Eigenschaften mappen. Das user-Objekt muss aber auch Administratoren repräsentieren können, sowie Nutzer, die zwar einen gültigen Google-Account haben, sich aber noch nicht für Wanderlust registriert haben. Deshalb werden die User-/Admin-Dokumente aus der Datenbank um ein `type`-Attribut erweitert. Für User, die noch nicht in der Datenbank zu finden sind wird ein Objekt verwendet, das nur dieses `type`-Attribut sowie die googleId besitzt. Die drei verschiedenen User-Types ermöglichen in folgender Middleware die Autorisierung basierend auf den Type sowie der Eigenschaften des Users.
 
@@ -769,7 +696,7 @@ Folgende Typen werden dabei verwendet:
 - user: Es handelt sich um einen validen und für Wanderlust registrierten Google User. Für alle Interaktionen der App mit der API ist dies der Fall, mit Ausnahme der Nutzer-Registrierung.
 - admin: Es handelt sich um einen Administrator, der sich erfolgreich mit Nutzernamen und Passwort authentifiziert hat. Ein Administrator kann alle Endpunkte ansprechen und hat meehr Freiheiten, was die Wahl der einzelnen Parameter betrifft. API-Anfragen mit Administratoren-Rechten kommen normalerweise aus dem Frontend, können aber auch über die Swagger UI durchgeführt werden.
 
-Um eine Route mithilfe der Authentifizierung zu schüzten, wird die Middleware `authenticate` verwendet. Diese stellt einen einfachen Wrapper um die `authenticate`-Middleware von Passport.js dar. Dabei werden Sessions deaktiviert, sodass dies nur an einer Stelle geschehen muss. Sessions werden deaktiviert, da sich das schwer mit REST vereinbaren lässt.
+Um eine Route mithilfe der Authentifizierung zu schüzten, wird die Middleware `authenticate` verwendet. Diese stellt einen einfachen Wrapper um die `authenticate`-Middleware von Passport.js dar. Sie deaktiviert dabei für alle Aufrufe Sessions, da diese die Zustandslosigkeit der API beeinträchtigen.
 
 Die anderen Middleware-Funktionen im Verzeichnis */src/middleware/auth* können dann zur Autorisierung verwendet werden. Mit diesen kann festgelegt werden, welche User-Types Zugriff auf die Route bekommen sollen, sowie Anforderungen an die Request-Parameter definiert werden. Dabei wird immer ein Pfad angegeben unter dem der Parameter im Request-Objekt zu finden ist, sodass dieselbe Middleware verwendet werden kann um den Request-Body sowie Query-Parameter und URL-Parameter zu überprüfen.
 
@@ -777,33 +704,37 @@ Middleware, die verwendet wird um Request-Parameter zu überprüfen, sollte imme
 
 ## Datei-Uploads
 
+Bilder werden als [multipart/form-data](multipart/form-data) übertragen. Um diese serverseitig verarbeiten zu können wird das Modul [formidable](https://github.com/felixge/node-formidable) verwendet. Profilbilder werden unter */uploads/imgs/user* abgelegt, Bilder zu Locations werden unter */uploads/omgs/location* gespeichert. Um die Anwendung skalierbar zu machen, müsste der interne Speicher durch einen File Store ersetzt werden.
+
 ## Notifications
 
-## JavaScript Style Guide
-
-Um konsistenten und hochwertigen Code zu schreiben verwendet das Backend (wie auch das Frontend) den [Airbnb JavaScript Style Guide](https://github.com/airbnb/javascript). Dieser beschreibt verschiedene Regeln, wie der Code geschrieben wird. Um die Einhaltung dieser Regeln zu erzwingen, verwenden wir [ESLint](https://github.com/eslint/eslint). Dieses kann mithilfe von `npm run lint` ausgeführt werden. Um zu verhindern, dass vor einem Commit vergessen wird, dieses Skript auszuführen (wodurch inkonsistenter Code im Repository landen kann) ist dieses Skript am Pre-Commit-Hook registriert worden. Das bedeutet, dass vor jedem commit die Einhaltung des Style Guides überprüft wird und nur im Erfolgsfall der tatsächliche Commit ausgeführt wird.
+Um Notifications an Geräte zu versenden wird das offizielle [Firebase Admin](https://firebase.google.com/docs/reference/admin/node/)-Modul verwendet. Unter Verwendung des in der User-Collection gespeicherten Device-Tokens, können damit Benachrichtigungen an individuelle Geräte gesendet werden.
 
 ## Request-Validierung
 
-Um fehlerhafte oder boshafte Requests an die API zu verhindern müssen alle Requests validiert werden. Fehlerhafte Query-Parameter, URL-Parameter oder Body-Parameter müssen zu einem `400` Status Code führen, oder falls möglich die Daten auf die richtige Form gebracht werden. Solch ein Whitelisting sorgt dafür, dass Request-Daten direkt an die MongoDB weitergegeben werden, ohne dass die Integrität unserer Daten gefährdet wird. Hierbei geht es nur um eine Validierung unabhängig vom Nutzer. Die Berechtigung des Nutzers wird in einer weiteren Middleware überprüft.
+Um fehlerhafte oder boshafte Requests an die API zu verhindern müssen alle Requests validiert werden. Fehlerhafte Query-Parameter, URL-Parameter oder Body-Parameter müssen zu einem `400` Status Code führen, oder falls möglich die Daten auf die richtige Form gebracht werden. Solch ein Whitelisting sorgt dafür, dass Request-Daten direkt weiterverarbeitet werden können, ohne die Integrität der Daten zu gefährden.
 
-Für diese Validierung bedienen wir uns bei [Hapi](https://github.com/hapijs/hapi), einer von Walmart entwickelten Alternative zu Express. Dieses beinhaltet die Bibliothek [Joi](https://github.com/hapijs/joi), mit welcher Validierungsschemata beschrieben werden können und bei der Registrierung von Routes angegeben werden können. Um Joi in Express nutzen zu können, kommt die Middleware [celebrate](https://github.com/continuationlabs/celebrate) zum Einsatz.
+Für diese Validierung bedienen wir uns bei [Hapi](https://github.com/hapijs/hapi), einer von Walmart entwickelten Alternative zu Express. Dieses beinhaltet die Bibliothek [Joi](https://github.com/hapijs/joi), mit welcher Validierungsschemas beschrieben werden können. Um Joi in Express nutzen zu können, kommt die Middleware [celebrate](https://github.com/continuationlabs/celebrate) zum Einsatz.
 
 ## Konfiguration
 
 Die Konfiguration der Anwendung geschieht über die Bibliothek [config](https://github.com/lorenwest/node-config). 
 
-Das Backend lässt sich über Konfigurationsdateien im Verzeichnis `/config` konfigurieren. Dabei können für jede Environment eigene Konfigurationsdateien erstellt werden, die dann entsprechende Werte aus der Datei `default.json` überschreiben. Dabei muss nur darauf geachtet werden, den Namen der Konfiguration  entsprechend der gewünschten environment zu benennen. Sie wird dann verwendet, wenn dieser Environment-Name als `NODE_ENV`-Umgebungsvariable gesetzt wird. Da wir das Backend bisher noch nicht deployed haben, ist bisher nur die `default.json` vorhanden.
+Das Backend lässt sich über Konfigurationsdateien im Verzeichnis `/config` konfigurieren. Dabei können für jede Umgebung eigene Konfigurationsdateien erstellt werden, die dann entsprechende Werte aus der Datei `default.json` überschreiben. Dabei muss nur darauf geachtet werden, den Namen der Konfiguration  entsprechend der gewünschten Umgebung zu benennen. Sie wird dann verwendet, wenn dieser Umgebungs-Name als `NODE_ENV`-Umgebungsvariable gesetzt wird. Da wir das Backend bisher noch nicht deployed haben, ist bisher nur die `default.json` vorhanden.
 
 ## Logging
 
-Alle Requests, die vom Backend bearbeitet werden, werden geloggt. Dafür kommt die Middleware [morgan](https://github.com/expressjs/morgan) zum Einsatz. Das Format kann dabei über `logging.format` in der Konfigurationsdatei des Backends angepasst werden, sodass für verschiedene Stages verschiedene Formate definiert werden können. Morgan unterstützt dabei sowohl vordefinierte auch benutzerdefinierte Formate.
+Alle Requests, die vom Backend verarbeitet werden, werden geloggt. Dafür kommt die Middleware [morgan](https://github.com/expressjs/morgan) zum Einsatz. Das Format kann dabei über `logging.format` in der Konfigurationsdatei des Backends angepasst werden, sodass für verschiedene Stages verschiedene Formate definiert werden können. Morgan unterstützt dabei sowohl vordefinierte auch benutzerdefinierte Formate.
 
 Zusätzlich werden auch bestimmte Informationen, wie der verwendete Port und die verwendete Datenbank geloggt, sowie verschiedene Server-Fehler. Dabei wird [chalk](https://github.com/chalk/chalk) verwendet, um die Logs farblich passend hervorzuheben.
 
+## JavaScript Style Guide
+
+Um konsistenten und hochwertigen Code zu schreiben verwendet das Backend (wie auch das Frontend) den [Airbnb JavaScript Style Guide](https://github.com/airbnb/javascript). Dieser beschreibt verschiedene Regeln, wie Code geschrieben wird. Um die Einhaltung dieser Regeln zu erzwingen, verwenden wir [ESLint](https://github.com/eslint/eslint). Dieses kann mithilfe von `npm run lint` ausgeführt werden. Um zu verhindern, dass vor einem Commit vergessen wird, dieses Skript auszuführen (wodurch inkonsistenter Code im Repository landen könnte) ist dieses Skript am Pre-Commit-Hook registriert. Das bedeutet, dass vor jedem commit die Einhaltung des Style Guides überprüft wird und nur im Erfolgsfall der tatsächliche Commit ausgeführt wird.
+
 ## Ausblick
 
-Während das Backend in seiner derzeitigen Form funktionstüchtig ist und auch Sicherheit und REST-Konformität gewährleistet, gibt es noch Ansatzpunkte, welche von technischer Seite, zu einer besseren Anwendung führen könnte.
+Während das Backend in seiner derzeitigen Form funktionstüchtig ist und auch Sicherheit und REST-Konformität gewährleistet, gibt es noch Ansatzpunkte, welche das Backend verbessern könnten.
 
 ### Authentifizierung über Authorization-Header
 
@@ -815,23 +746,23 @@ Bisher wird Joi verwendet um Requests zu validieren und damit unerwünschte Requ
 
 ### File Store
 
-Bisher speichern wir Bilder von Orten und Endanwendern auf dem Dateisystem des Servers ab, auf dem die Anwendung ausgeführt wird. Da angedacht ist mehrere Instanzen des Backends zu deployen, müssten die Bilder tatsächlich auf einem File Store Server abgespeichert werden. Hierfür gibt es meherere Alternativen.
+Bisher speichern wir Bilder von Orten und Endanwendern auf dem Dateisystem des Servers ab, auf dem die Anwendung ausgeführt wird. Da angedacht ist mehrere Instanzen des Backends zu deployen, müssten die Bilder tatsächlich auf einem File Store Server abgespeichert werden.
 
 ### Deployment
 
-Um das Backend in Produktion einzusetzen, muss es deployed werden. Um mit wechselnder Last zurecht zu kommen, müssten dynamisch mehrere Instanzen der Anwendung erzeugt werden. Dafür gibt es verschiedene Möglichkeiten, wenn man auf Cloud-Angebote zurückgreift, ist dies auch ohne großen Aufwand möglich. Da unsere Anwendung bis auf den oben schon genannten fehlenden File Storage zustandslos ist, lässt sie sich beliebig skalieren. Dafür müsste nur ein Load Balancer vorgeschaltet werden.
+Um das Backend in Produktion einzusetzen, muss es deployed werden. Um mit wechselnder Last zurecht zu kommen, müssten dynamisch mehrere Instanzen der Anwendung erzeugt werden. Da unsere Anwendung bis auf den oben schon genannten fehlenden File Storage zustandslos ist, lässt sie sich beliebig skalieren. Dafür müsste nur ein Load Balancer vorgeschaltet werden.
 
 Um das Backend in Produktion einzusetzen müsste noch eine neue Konfigurationsdatei mit dem Namen production.json angelegt werden und auf dem Server die Umgebungsvariable `NODE_ENV=production` gesetzt werden.
 
 ### Google Token Validation
 
-Jeder Request, der einen Google-Token mitschickt, wird über eine Schnittstelle von Google verifiziert. Um die Netzwerklast zu reduzieren und mögliche Beschränkungen der Google-Schnittstelle zu umgehen, könnten diese Anfragen gecached werden. Dafür müsste eine getGoogleCerts-Funktion an die Strategie übergeben werden, welche dieses Verhalten umsetzt.
+Jeder Request, der einen Google-Token mitschickt, wird über eine Schnittstelle von Google verifiziert. Um die Netzwerklast zu reduzieren könnten diese Anfragen gecached werden. Dafür müsste eine `getGoogleCerts`-Funktion an die Strategie übergeben werden, welche dieses Verhalten umsetzt.
 
 # Administrations-Oberfläche
 
 Die Administrationsoberfläche bietet Administratoren die Möglichkeit, Daten der Nutzer und Orte einzusehen und zu bearbeiten. So können beispielsweise Nutzer gelöscht werden, Freundschaften beendet werden oder Profile bearbeitet werden.
 
-Es handelt sich dabei um eine Vue.js-Anwendung. Die Anwendung wurde mit dem [vue-cli](https://github.com/vuejs/vue-cli) erzeugt. Als Template wurde [webpack](https://github.com/vuejs-templates/webpack) verwendet. Informationen über die Projektstruktur können in der Dokumentation gefunden werden. Das Projekt wurde dann durch das Modul [bootstrap-vue](https://github.com/bootstrap-vue/bootstrap-vue) ergänzt.
+Es handelt sich dabei um eine Vue.js-Anwendung. Die Anwendung wurde mit dem [vue-cli](https://github.com/vuejs/vue-cli) erzeugt. Als Template wurde [webpack](https://github.com/vuejs-templates/webpack) verwendet.
 
 ```
 ├───build
@@ -848,27 +779,21 @@ Die Projektstruktur wird auf der Webseite des Templates [dokumentiert](https://v
 
 Das Template befindet sich im Route-Verzeichnis und trägt den Namen *index.js*. Hier werden beispielsweise HTML-Header festgelegt. Die restlichen relevanten Dokumente befinden sich im */src*-Verzeichnis. Die zentrale Vue-Komponente heißt App.vue und befindet sich direkt im */src*-Verzeichnis. Sie verwendet den unter */src/router* definierten Router. Dieser verweist bisher nur auf eine einzige weitere Komponente, der Users-Komponente. Diese befindet sich im Verzeichnis */src/components*. Sie beschreibt eine Tabelle, mit allen Nutzern im System. Sie bietet die Möglichkeit User zu löschen, sowie Buttons, mit denen sich Modals öffnen lassen, über die dann Nutzerdaten bearbeitet werden können, sowie Freunde und Locations gelöscht werden können. Diese Modals befinden sich in eigenen Komponenten im selben Verzeichnis. Die Kommunikation zwischen diesen Komponenten und der Users-Komponente geschieht über Props und Events.
 
+Um [Bootstrap](https://getbootstrap.com/) als Vue.js-Komponente in das Projekt einzubinden wurde [bootstrap-vue](https://github.com/bootstrap-vue/bootstrap-vue) verwendet. Um [Font Awesome](http://fontawesome.io/)-Icons zu verwenden kommt außerdem [vue-awesome](https://github.com/Justineo/vue-awesome) zum Einsatz. 
+
 ## API-Requests
 
-Um mit dem Backend zu kommunizieren wird Axios verwendet. Entsprechende Controller befinden sich in der Datei */src/api.js*.
-
-## JavaScript Style Guide
-
-Im Frontend wird, wie im Backend auch, der Airbnb ...
+Um mit dem Backend zu kommunizieren wird [axios](https://github.com/axios/axios) verwendet. Entsprechende Controller befinden sich in der Datei */src/api.js*.
 
 ## Ausblick
 
+Im Gegensatz zu der Android-Anwendung und dem Backend ist die Administrationsoberfläche noch nicht einsatzbereit. Folgende Features sollten noch umgesetzt werden:
+
+
 * Log-In
 * Authentifizierung
-* Nur geänderte Werte patchen
 * Locations bearbeiten
 * Bilder verwalten
-
-# Mögliche Features
-
-Freunde aus Kontaktliste vorschlagen
-
-
 
 # Ausblick
 
@@ -885,3 +810,19 @@ Wünschenswert wäre eine Offlinespeicherung aller Daten auf dem Gerät. Dies h�
 Bisher wird eine Push-Benachrichtigung geschickt, wenn der Nutzer seine Locations via Email einem anderen Nutzer freigegeben hat. Falls der Nutzer diese Nachricht wegwischen würde, ohne auf "I want to share my locations too" zu drücken, hat er momentan keine Möglichkeit, dies nachträglich zu tun. 
 
 In der weiteren Entwicklung würde man die Push-Benachrichtungen ausweiten und Funktionalitäten so anpassen, dass innerhalb der App eine Sektion zeigt, mit wem man seine Locations geteilt hat, wer davon sich auch in meiner Freundesliste befindet und die Anfragenverwaltung, ob die Freigabe zu einem späteren Zeitpunkt erfolgen soll. 
+
+## Chatfunktion
+
+Bisher ist es nicht angedacht, dass die Nutzer außerhalb des Location-Austausches miteinander kommunizieren. In Zukunft könnte geprüft werden, ob auch eine Chatfunktion eine Option für die Anwendung wäre, um mit den Leuten in Kontakt zu bleiben, die sich auf einer Reise kennengelernt haben. Die gebildete Community hätte ein gemeinsames Interessensgebiet und würde ein eigenes Netzwerk bilden. Dies könnte wiederum dazu führen, dass sich Backpacker über die Anwendung verabreden. 
+
+## Beschränkung der Favoriten
+
+Wanderlust hebt sich von normalen Bewertungsportalen dadurch ab, dass eine Reizüberflutung vermieden wird und nur wenige Orte pro Stadt vorgeschlagen werden. Deshalb kann es sinnvoll sein, die Anzahl der Favoriten pro Stadt zu begrenzen. Dabei könnte ein Maximum von 5 Favoriten pro Stadt sinnvoll sein. Schließlich ist die Anwendung für Backpacker gedacht und diese zeichnen sich dadurch aus, dass sie sich sehr kurz an vielen Orten aufhalten.
+
+## Weitere mögliche Features.
+
+Es gibt einige Aktivitäten, über die man Nutzer noch mit Push-Benachrichtigungen informieren könnte. So könnte ein Nutzer darauf hingewiesen werden, dass er sich in der Nähe eines Favoriten eines Freundes aufhält. 
+
+Ein weiteres mögliches Feature wäre das Teilen des aktuellen Standortes mit seinen Freunden.
+
+Auch die Kartenansicht könnte erweitert werden, beispielsweise um Filter für verschiedene Kategorien.
