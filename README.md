@@ -12,11 +12,11 @@ Mithilfe der Android-Anwendung können Nutzer Orte über Google Maps auswählen,
 
 Um seine Favoriten-Liste mit anderen Backpackern zu teilen kann der Nutzer diese als Freund hinzufügen. Das kann über NFC oder über eine E-Mail-Adresse geschehen. Sobald einem Zugriff auf die Orte eines anderen Backpackers gewährt wurde, werden diese gemeinsam mit den Orten anderer Freunde auf einer Karte angezeigt. Dabei lassen sich über einen Filter die Orte bestimmter Freunde ausblenden. Klickt man auf einen Marker auf der Karte, erhält man die Kommentare und Bilder aller Freunde, die diesen Ort in ihrer Favoritenliste haben.
 
-Für jeden gespeicherten Freund gibt es eine Detailansicht, die Daten des Nutzers und seine favorisierten Orte anzeigt. Zudem wird eine Möglichkeit geboten, die Orte nach zugehörigem Staat zu filtern. 
+Für jeden gespeicherten Freund gibt es eine Detailansicht, die Daten des Nutzers und seine favorisierten Orte anzeigt. Zudem wird eine Möglichkeit geboten, die Orte nach zugehörigem Staat zu filtern.
+
+Um die Anwendung verwenden zu können wird eine Android-Version 5 (API-Level 21) oder höher vorausgesetzt. Verantwortlich sind dafür insbesondere verwendete NFC-Features. Laut einer Studie vom Januar 2018 liegt der Marktanteil der Android-Smartphones mit Versionen höher als 5.0 weltweit bei 80,7 %. ![Marktanteil der Android-Versionen an allen Geräten mit Android OS weltweit im Zeitraum 02. bis 08. Januar 2018 (Quelle: https://de.statista.com/statistik/daten/studie/180113/umfrage/anteil-der-verschiedenen-android-versionen-auf-geraeten-mit-android-os/, Zugriff: 24.01.2018)](C:\Users\Rebecca Durm\AndroidStudioProjects\wanderlust\res\statistik-android-apps.jpg) Die Anwendung sollte damit also immer noch einer großen Mehrheit der Android-Nutzern zur Verfügung stehen.
 
 ## Projektstruktur
-
-Im Folgenden soll der Aufbau der Android-Anwendung näher beschrieben werden. Dabei wird auf die Ordner- und Packagestruktur eingegangen, sowie die Zuständigkeit der verschiedenen Klassen beleuchtet. Sehr bedeutend ist hierfür auch eine kurze Beschreibung der Funktionalität der einzelnen UI-Komponenten wie Activities und Fragments.
 
 Die von Android Studio angelegte Verzeichnisstruktur wird in der entsprechenden [Dokumentation](https://developer.android.com/studio/projects/index.html) erläutert. Im Rahmen dieser Dokumentation ist das Verzeichnis */app/src/main* von Bedeutung. Java-Dateien befinden sich dabei unter */app/src/main/java*, Ressourcen wie Bilddateien oder XML-Spezifikationen befinden sich im Verzeichnis */app/src/main/res*.
 
@@ -70,7 +70,7 @@ Die Packages im Verzeichnis */app/src/main/java* spalten den Quellcode in versch
 
 Im Package ***activities*** befinden sich sämtliche Activities, sprich die komplette UI-Logik. Es implementiert die gesamte Interaktion zwischen Nutzer und App. Da keine strikte Trennung von View- und Controller-Komponenten besteht, enthalten Activities auch Business-Logik, wie beispielsweise die Interaktion mit dem Backend. Die Darstellung des UI wird durch eine entsprechende XML-Datei in */app/src/main/res* definiert.
 
-***fragments*** implementiert Klassen, die von den Activities verwendet werden. Sie sind an keine bestimmte Activity gebunden, sondern lassen sich einfach wiederverwenden. Wichtige Fragmente sind *MyMapFragment*, *MyListFragment*, *MyFriendsFragment* und *SettingsFragment*. Sie sind in die *HomeActivity*, quasi der Hauptanlaufstelle der App, eingebunden. Der Nutzer kann dort zwischen diesen Fragmenten navigieren.
+***fragments*** implementiert Klassen, die von den Activities verwendet werden. Sie sind an keine bestimmte Activity gebunden, sondern lassen sich einfach wiederverwenden. Wichtige Fragmente sind *MyMapFragment*, *MyLocationsFragment*, *MyFriendsFragment* und *SettingsFragment*. Sie sind in die *HomeActivity*, quasi der Hauptanlaufstelle der App, eingebunden. Der Nutzer kann dort zwischen diesen Fragmenten navigieren.
 
 Das Package ***helpers*** stellt Hilfsklassen zur Verfügung, welche die Implementierung der Logik vereinfachen. Sie reduzieren die Komplexität der Activities und Fragmente, reduizieren Redundanz und verbessern die Lesbarkeit. Die Hilfsfunktionen sind statisch implementiert, es wird also keine Instanziierung der Hilfsklassen benötigt. Da es sich um reine Hilfsfunktionen handelt, muss der Kontext wie beispielsweise Shared Preferences als Parameter übergeben werden.
 
@@ -90,7 +90,7 @@ Das *User* Model repräsentiert Backpacker, die Wanderlist verwenden. Es wird so
 
 ### Location
 
-Das *Location* Model repräsentiert tatsächliche Orte, mitsamt der Eigenschaften, die ein User ihnen zuschreibt. Ein Ort kann also mehr als einmal existieren, solange mehrere User ihn angelegt haben. Informationen wie Beschreibungen und Kategorien können sich dabei unterscheiden. Eine Location ist immer einem bestimmten Nutzer zugeordnet, ein User kann aber mehrere Locations besitzen. Da eine Location auch eine googleId besitzen kann, können Locations, die den selben physikalischen Ort beschreiben, erkannt werden. So wird beispielsweise im MapFragment jeder Ort nur einmal eingezeigt, unabhängig davon, wie viele Nutzer ihn in ihrer Favoritenliste haben.
+Das *Location* Model repräsentiert tatsächliche Orte, mitsamt der Eigenschaften, die ein User ihnen zuschreibt. Ein Ort kann also mehr als einmal existieren, solange mehrere User ihn angelegt haben. Informationen wie Beschreibungen und Kategorien können sich dabei unterscheiden. Eine Location ist immer einem bestimmten Nutzer zugeordnet, ein User kann aber mehrere Locations besitzen. Da eine Location auch eine googleId besitzen kann, können Locations, die den selben physikalischen Ort beschreiben, erkannt werden. So wird beispielsweise im MyMapFragment jeder Ort nur einmal eingezeigt, unabhängig davon, wie viele Nutzer ihn in ihrer Favoritenliste haben.
 
 Einige Eigenschaften wie der Name, die Google-ID, die Stadt, das Land und die Koordinaten, werden durch die App vorgenommen. Die entsprechenden Informationen stellt der *PlacePicker* bereit. Andere Eigenschaften wie die passenden Kategorien, einer Beschreibung und Bildern können vom Benutzer festgelegt werden.
 
@@ -113,75 +113,23 @@ Ab Android 6.0 müssen für als gefährlich eingestufte Berechtigungen zusätzli
 
 Zudem wird im Manifest angegeben, welche Features die App verwendet. Dies wird in der Form `<uses-feature android:name="android.hardware.camera" />` eingetragen. Wanderlust verwendet NFC um Freunde hinzuzufügen und die Kamera um Profilbilder und Location-Bilder hochzuladen.
 
-## Bilder-Verwaltung
+## Bilder Laden
 
-Für das asynchrone Herunterladen und Anzeigen der auf dem Server gespeicherten Bilder wird die Bibliothek *[Glide](https://bumptech.github.io/glide/)* in der 4. Version verwendet. Diese erleichtert es den Entwicklern immens, den Code für das Herunterladen von Bildern (ohne die umständlichere Nutzung von *HttpUrlConnection*) auf einfache Weise zu implementieren. Der Code wird dabei sehr schlank gehalten. Außerdem bietet die Bibliothek Möglichkeiten, Callbacks zu implementieren, die ausgeführt werden, sobald ein Bild heruntergeladen wurde. Ebenso ist in Glide bereits eine Caching-Strategie integriert, die dazu führt, das bereits heruntergeladene Bilder nicht nochmals geladen werden müssen. Die Api, um Glide zu benutzen, sieht für einen einfachen Beispielsfall wiefolgt aus:
+Um Profilbilder und Fotos von Orten asynchron zu laden kommt die Bibliothek *[Glide](https://bumptech.github.io/glide/)* zum Einsatz. Sie ermöglicht eine sehr einfache Umsetzung, besonders im Vergleich zur umständlichen Implementierung mittels *HttpUrlConnections*. Der Code wird schlank gehalten und es besteht die Möglichkeit Callbacks zu implementieren, die bei abgeschlossenem Download aufgerufen wird. Außerdem integriert Glide bereits eine Caching-Strategie. Bilder, die bereits heruntergeladen wurden müssen also nicht erneut geladen werden.
 
-```java
-Glide.with(context).load(url).into(imageView);
-```
-
-Über die Klasse *RequestOptions* ist es möglich, bestimmte Optionen für das Laden und/oder Anzeigen der Bilder zu definieren. Im folgenden Beispiel wird festgelegt, dass das Bild bei jeder Ausführung des Codes neu vom Server heruntergeladen werden soll. Dies ist in der *EditProfileActivity* nötig, damit, nachdem das Bild vorher vom Nutzer geändert wurde, das aktuelle Bild beim erneuten Aufrufen der Activity angezeigt wird. 
-
-```java
-RequestOptions requestOptions = new RequestOptions()
-  	.diskCacheStrategy(DiskCacheStrategy.NONE)
-  	.skipMemoryCache(true);
-Glide.with(context).load(url).apply(requestOptions).into(imageView);
-```
+Mithilfe eines RequestOptions-Objekt können außerdem Optionen zum Laden und Anzeigen der Bilder definiert werden. Damit wird beispielsweise in der *EditProfileActivity* Caching unterdrückt um ein geändertes Bild korrekt zu laden.
 
 ## Serialisierung
 
-Zur Serialisierung  und Deserialisierung von Java-Objekten zu bzw. von JSON verwenden wir die Bibliothek [*Gson*](https://github.com/google/gson) von Google. Diese macht als den Entwicklern deutlich einfacher als die Verwendung der *JSONObject* Klasse, mit in JSON formatiertem Text umzugehen. Durch Gson kann die Antwort des Servers in die bereits beschriebenen Model-Klassen User und Location umgewandelt werden. Auch können Objekte dieser Klassen in einen String in JSON transformiert werden, um diesen als Body im Request an den Server mitzuschicken. Des Weiteren können individuelle Strategien angelegt werden, um z.B. bestimmte Felder zu ignorieren oder auch umzubennen. 
+Daten werden zwischen der App und dem Backend mithilfe von JSON-Strings ausgetauscht. Um also Daten an den Server zu senden müssen entsprechende Objekte serialisiert werden. Antworten des Backends müssen widerum deserialisiert werden um sie als Objekte der richtigen Modellklasse in Java verwenden zu können. Ziel- bzw. Ausgangsklassen der Daten sind dabei die beiden schon beschriebenen Modellklassen *Location* und *User*.
 
-In diesem Beispiel wird aus einem JSON String ein neues Object der User Klasse erstellt, auf dessen Funktionen daraufhin wie gewohnt zugegriffen werden können.
-
-```java
-Gson gson = new Gson();
-User user = gson.fromJson(result, User.class);
-String firstName = user.getFirstName();
-```
-
-Das nächste Beispiel ist entnommen aus der *AddLocationActivity*, in der aus einem Objekt der Klasse Location ein String entsteht, der als Request Body an den Server geschickt wird. 
-
-```java
-Location location = new Location(
-                        place.getId(),
-                        userId,
-                        place.getName().toString(),
-                        true,
-                        description,
-                        selectedCategories,
-                        new double[]{place.getLatLng().latitude, place.getLatLng().longitude},
-                        city,
-                        country
-                );
-                //transform to json via gson
-                Gson gson = new Gson();
-                String locationJson = gson.toJson(location);
-```
-
-## Push Notifications
-
-Für die Integration von Push Notifications vom Server zum Android Client wird die *[Cloud Messaging](https://firebase.google.com/docs/cloud-messaging/ )* Bibliothek von *Firebase* (mittlerweile Teil von Google) verwendet. FCM hat *Google Cloud Messaging* als die von Google empfohlene Lösung zur Synchronisation von Server und Client abgelöst. Für Details zur Verwendung und Implementierung lesen sie bitte das Kapitel Push Notifications.
+Dafür kommt Googles Bibliothek [*Gson*](https://github.com/google/gson) zum Einsatz. Im Vergleich zu JSONObject erleichtert *Gson* den Umgang mit JSON-Strings erheblich. Sie ermöglicht auch die Definition individueller Strategien, um z.B. bestimmte Felder zu ignorieren oder auch umzubennen. 
 
 ## PlacePicker
 
-Der [*PlacePicker*](https://developers.google.com/places/android-api/placepicker) ist ein UI-Widget, das auf die Google Places API zugreift und mithilfe dessen man es dem Nutzer ermöglicht, auf einer Karte oder über ein Suchfeld einen Ort auszuwählen. 
+User können auf einer Karte oder über eine Liste Orte auswählen, die sie abspeichern und gegebenenfalls ihrer Favoritenliste hinzufügen wollen. Dies wird über den [*PlacePicker*](https://developers.google.com/places/android-api/placepicker) umgesetzt. Dabei handelt es sich um ein UI-Widget, das auf die Google Places API zugreift.
 
-Der PlacePicker wird in die *AddLocationActivity* integriert. Über den Aufruf von *startActivityForResult* wird der PlacePicker geöffnet. Sobald der Nutzer einen Ort ausgewählt hat, wird in der Activity die Funktion *onActivityResult* aufgerufen, in der auf die Daten dieses Ortes zugegriffen werden kann. 
-
-```java
-protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == PLACE_PICKER_REQUEST) {
-            if (resultCode == RESULT_OK) {
-                Place place = PlacePicker.getPlace(this, data);
-               	String name = place.getName();
-                ...
-             }
-        }
-}
-```
+Der PlacePicker wird in die *AddLocationActivity* integriert. Diese verfügt über eine Methode *startActivityForResult*, die den PlacePicker öffnet. Sobald der Nutzer einen Ort ausgewählt hat, wird die Methode *onActivityResult* aufgerufen, in der auf die Daten dieses Ortes zugegriffen werden kann. 
 
 
 
@@ -193,224 +141,59 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
 ## Google Maps API
 
-Die Einbindung der [*Google Maps API*](https://developers.google.com/maps/documentation/android-api/?hl=de) für Android wird in das *MyMapFragment*, in dem dem Nutzer die Kartenansicht mit seinen gespeicherten Orten und den Favoriten seiner Freund angezeigt werden, integriert. Es gibt zwei Möglichkeiten, die Karte einzubinden: das *MyMapFragment* (nicht zu verwechseln mit dem des Projekts) und die *MapView*. Dadurch, dass die *BottomNavigation* in der *HomeActivity* mit verschiedenen Fragments arbeitet und die Verschachtelung mehrere Fragments nicht empfohlen wird, greifen wir hier zur zweiten Variante. Hierfür wird die *MapView* in die zum Fragment zugehörige xml-Datei eingefügt
-
-```xml
-<com.google.android.gms.maps.MapView
-	android:id="@+id/map_view"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent" />
-```
-
- In unserem *MyMapFragment* kann nun auf die Karte zugegriffen werden.
-
-```java
-mapView = view.findViewById(R.id.map_view);
-mapView.onCreate(mapViewBundle);
-
-mapView.getMapAsync(new OnMapReadyCallback() {
-	@Override
-    public void onMapReady(GoogleMap googleMap) {
-    	map = googleMap; //map is a global variable of type GoogleMap
-		loadLocationsOfUser();
-	}
-});
-```
-
-Die Methode *loadLocationsOfUser* schickt einen Request an unsere API, um die gespeicherten Orte des Nutzers und daraufhin auch die Favoriten seiner Freunde zu erhalten. Für jede Location eines jeden Users wird nun ein [*Marker*](https://developers.google.com/maps/documentation/android-api/marker?hl=de) auf der Karte gesetzt. Dabei greifen wir auf Methoden der Location Klasse zu, um die Koordinaten des Markers, sowie den Titel zu setzen. Je nachdem, welchem Freund der Ort angehört, wird dementsprechend eine andere Farbe des Markers ausgewählt. 
-
-```java
-//computeColor uses the index of the list of users to select the marker's color
-BitmapDescriptor icon = BitmapDescriptorFactory.defaultMarker(MarkerColors.computeColor(index));
-
-MarkerOptions options = new MarkerOptions()
-		.position(new LatLng(location.getCoordinates()[0], location.getCoordinates()[1]))
-         .title(location.getName())
-         .icon(icon);
-
-Marker marker = map.addMarker(options);
-```
-
-Zum einfacheren Verständnis der Funktionsweise des Codes, wurden in diesem Codeschnipsel zusätzliche Logik wie das Setzen eines anderen Icons, wenn der gleiche Ort von zwei unterschiedlichen Nutzer gespeichert wurde, ausgelassen. 
+Um dem Nutzer eine Karte mit seinen Orten sowie den Favoriten seiner Freunde anzuzeigen wird die [*Google Maps API*](https://developers.google.com/maps/documentation/android-api/?hl=de) für Android in das *MyMapFragment* integriert. Dies kann mithilfe des Fragments *MyMapFragment* (nicht zu verwechseln mit dem des Projekts) oder der *MapView* geschehen. Da die *BottomNavigation* in der *HomeActivity* mit verschiedenen Fragments arbeitet und die Verschachtelung mehrerer Fragments nicht zu empfehlen ist, greifen wir hier zur zweiten Variante. Hierfür wird die *MapView* der dem Fragment zugehörigen XML-Datei hinzugefügt. Anschließend kann im *MyMapFragment* auf die Karte zugegriffen werden. Dieses Fragment besitzt eine Methode *loadLocationsOfUser*, mit der die gespeicherten Orte des Nutzers von der API des Wanderlust-Backends angefragt werden. Für jede Location eines jeden users kann dann ein [*Marker*](https://developers.google.com/maps/documentation/android-api/marker?hl=de) auf der Karte gesetzt werden. Dies geschieht über Methoden der Location Klasse, mit der die Koordinaten und der Titel des Markers gesetzt werden können. Entsprechend des Freundes, der den Ort in seiner Liste hat, wird dann die Farbe des Markers ausgewählt. 
 
 Nicht zu vergessen ist die Angabe des in der Google Console kreierten API Keys in der Datei *AndroidManifest.xml*.
 
-```xml
-<meta-data
-	android:name="com.google.android.geo.API_KEY"
-    android:value="AIzaSyA9yABz8sHgpRXtGuwzkgbEMY4HbqLpUwg" />
-```
+## Anmeldung
 
-## Google Sign In
+Backpacker nutzen ihren Google-Account, um sich in Wanderlust einzuloggen. Dafür wird Google OAuth verwendet. Die dafür implementierte Logik befindet sich in der *LoginActivity*. In ihrer *onCreate* Methode wird Google Sign In konfiguriert. Dabei muss der Scope angegeben werden, also welche Dateien die App benötigt. Außerdem muss die in der Google API Console erzeugte *client ID* als Argument übergeben werden. Mit dem bereitgestellten Token kann sich dann die App gegenüber dem Backend authentifizieren. Er wird dafür in den *SharedPreferences* gespeichert und als Header jedem Request angehängt. Das Backend kann anhand des Tokens überprüfen, um welchen Nutzer es sich handelt und ob dieser die Anfrage durchführen darf.
 
-Für die Authentifizierung des Nutzers verwenden wir Google OAuth. Die dafür notwendige Logik befindet sich in der *LoginActivity*. In der *onCreate* Methode wird Google Sign In konfiguriert:
+In der *onStart* Methode der *LoginActivity* wird ein sogenannter *silentSignIn* ausgeführt, um somit zu überprüfen, ob der Nutzer bereits eingeloggt ist. Ist dies nicht der Fall, so wird dem Nutzer das User Interface der Activity angezeigt. Das Resultat des Logins wird anschließend in der *onActivityResult* Methode behandelt. Die anschließend aufgerufene Methode *handleSignInResult* persistiert daraufhin den ID-Token auf dem Gerät und registriert den Nutzer falls notwendig im Backend.
 
-```java
-// Configure sign-in to request the user's ID, email address, the ID token, and basic
-// profile. ID and basic profile are included in DEFAULT_SIGN_IN.
-GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-	.requestEmail()
-    .requestIdToken(getString(R.string.server_client_id))
-    .build();
+## Freunde Hinzufügen
 
-// Build a GoogleSignInClient with the options specified by gso.
-mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-```
+Als Backpacker macht man häufig flüchtige Bekanntschaften. Deshalb soll das Hinzufügen von Freunden sehr einfach und schnell gehen. Dafür verwendet Wanderlust NFC. Es genügt die Smartphones aneinander zu halten und den Bildschirm zu berühren. Diese Interaktion wird dabei von einem der beiden Backpacker initiiert, der andere muss seine App nicht geöffnet haben. Für die Nutzer wirkt der Prozess so, als ob die gesamte Kommunikation über NFC ablaufen würde und die Freundschaft ohne Umwege angelegt würde. Tatsächlich ist der Prozess unter der Haube komplizierter:
 
-Zu beachten ist hierbei, dass wir explizit angeben müssen, welche Daten wir benötigen. Um den *IdToken*, den wir benötigen werden, um uns im Backend zu authentifizieren, müssen wir dafür die in der Google API Console hinterlegte *client ID* als Argument übergeben. Dieser Token wird daraufhin in den *SharedPreferences* gespeichert und bei jedem zukünftigen Request an den Server im Header mitgegeben, sodass im Backend überprüft werden kann, um welchen Nutzer es sich handelt und ob dieser für diese Anfrage berechtigt ist. 
+Der Initiator sendet seine ID über NFC an den Empfänger. Dieser nutzt die ID um dem Initiator seine Orte freizugeben. Dies geschieht über eine Anfrage an das Backend. Der Backend-Server sendet daraufhin eine Benachrichtigung an den Initiator. Die Nachricht enthält dabei die ID des Empfängers. Die App des Empfängers überprüft bei Empfang der Nachricht, ob er in den letzten 30 Sekunden seine ID über NFC verschickt hat und deshalb eine solche Benachrichtigung erwartet. Ist dies der Fall wird dem Nutzer keine Benachrichtigung angezeigt. Stattdessen nutzt die App die ID aus der Benachrichtigung um dem Empfänger seine Orte freizugeben. Sollte die Benachrichtigung sehr spät ankommen muss der Initiator die Benachrichtigung bestätigen, bevor der Freund hinzugefügt werden kann.
 
-In der *onStart* Methode der *LoginActivity* wird ein sogenannter *silentSignIn* ausgeführt, um somit zu überprüfen, ob der Nutzer bereits eingeloggt ist. Ist dies nicht der Fall, so wird dem Nutzer das User Interface der Activity angezeigt. Sobald der Nutzer den Login Button klickt, wird folgende Methode aufgerufen:
+Diese Lösung wirkt sehr umständlich, wird aber aus folgenden Gründen notwendig:
 
-```java
-private void signIn() {
-	Intent intent = mGoogleSignInClient.getSignInIntent();
-	startActivityForResult(intent, SIGN_IN_REQUEST);
-}
-```
+* User sollen nur ihre Orte für andere freigeben können. Um eine beidseitige Freundschaft herzustellen, muss von beiden Geräten ein entsprechender Request ausgeführt werden.
+* NFC ermöglicht bidirektionale Kommunikation nicht ohne Weiteres. Dadurch können keine IDs ausgetauscht werden
+* Der Vorgang soll für den Nutzer so einfach wie möglich und intuitiv sein. So soll nicht mehr als ein einfaches Tippen auf den Bildschirm genügen, um die Freundschaft zu erzeugen.
+* Es kann nicht immer automatisch auf die Notification reagiert werden, da dies missbraucht werden kann. Außerdem wird die Notification für Smartphones ohne NFC benötigt, wie später noch erläutert wird.
 
-Das Resultat des Logins wird daraufhin in der *onActivityResult* Methode behandelt.
+NFC wird dabei nicht vorausgesetzt um die App nutzen zu können. Die App wird also im Play Store nicht nur Nutzern mit einem NFC-fähigen Smartphone angezeigt. Dafür wird eine alternative Methode, Orte zu teilen, zur Verfügung gestellt. Auf diese werden Nutzer ohne NFC direkt weitergeleitet. Aber auch Nutzer mit NFC können diese Methode nutzen. Dabei muss eine E-Mail-Adresse in ein Suchfeld eingegeben werden. Anschließend kann dann der Nutzer mit dieser E-Mail-Adresse als Freund hinzugefügt werden. Dieser wird dann über eine Push-Benachrichtigung darüber informiert und hat die Möglichkeit über einen Button in der Benachrichtigung auch seine Orte zu teilen.
 
-```java
-protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-	super.onActivityResult(requestCode, resultCode, data);
+### NFC
 
-	// Result returned from launching the Intent from GoogleSignInClient.getSignInIntent(...);
-    if (requestCode == SIGN_IN_REQUEST) {
-	// The Task returned from this call is always completed, no need to attach a listener.
-	Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-	handleSignInResult(task);
-    }
-}
-```
+Der Aufbau der NFC-Verbindung wird in der *AddFriendNfcActivity* implementiert. In der *onCreate* Methode wird auf die Klasse *NfcAdapter* zugegriffen und die jeweiligen Callbacks definiert, die bei Erkennen eines anderen Gerätes und beim erfolgreichen Senden einer Nachrichten aufgerufen werden. Es wird außerdem eine Methode implementiert um zu versendende Nachrichten im NDEF-Format zu erzeugen. Dabei handelt es sich um ein standardisiertes Datenformat, das dazu verwendet wird, Informationen zwischen einem kompatiblen NFC Gerät und einem anderen NFC-Gerät oder -Tag auszutauschen.
 
-In der aufgerufenen Methode *handleSignInResult* wird daraufhin der ID Token persistent auf dem Gerät gespeichert und ein Request an den Server geschickt, um den Nutzer, falls er noch nicht existiert, zu erstellen. 
+In der *onResume* Methode werden nun empgangene Intents behandelt. Die Methode *handleNfcIntent* liest daraufhin die Daten (die ID des anderen Nutzers) und sendet einen Request an den Server, um die "Freundesbeziehung" zu erzeugen.
 
-## NFC
+### Push-Benachrichtigungen
 
-Die Applikation soll den Nutzern eine möglichst interessante und einfache Möglichkeit bieten ihre Orte miteinander zu teilen, sprich eine Freundesbeziehung aufzubauen. Hier haben wir uns dafür entschieden auf einen drahtlose Übertragung von Daten zu setzen, da den Nutzern somit eine lästige Suche von Nutzern durch Texteingabe erspart bleibt. Da es für uns nur nötig ist, eine Id der Nutzer auszutauschen, reicht für diese Übertragung NFC vollkommen aus. Außerdem bietet NFC die intuitive Möglichkeit, die Freundesbeziehung aufzubauen, indem beide Handys aneinandergelegt werden. Zur Nutzung von NFC werden die nötigen Berechtigungen im Android Manifest festgelegt.
+Um vom Server Push-Benachrichtigungen an den Android-Client zu senden wird die *[Cloud Messaging](https://firebase.google.com/docs/cloud-messaging/ )*-Bibliothek von *Firebase* verwendet. FCM  ist gehört mittlerweile zu Google und hat *Google Cloud Messaging* als die von Google empfohlene Lösung zur Synchronisation von Server und Client abgelöst.
 
-```xml
-<uses-permission android:name="android.permission.NFC" />
-<uses-feature android:name="android.hardware.nfc" />
-```
+Die Klasse *MyFirebaseInstanceIDService* erweitert die Firebase-Klasse *FirebaseInstanceIdService*. Sie implementiert die Funktion *onTokenRefresh*, die bei jeder Erst- und Neugenerierung des FCM-Tokens aufgerufen wird. Dieser Token wird dafür verwendet, um Nachrichten gezielt an ein Gerät zu senden. Ein Token adressiert also ein Gerät, unabhängig vom dort angemeldeten User. Da das Backend den Token kennen muss, um Benachrichtigungen zu versenden, wird bei jeder Neugenerierung eines Tokens dieser im Backend aktualisiert werden. Ein Token wird beispielsweise neu kreiert, wenn ein Nutzer die App neu installiert oder sich auf einem anderen Gerät einloggt. Entsprechend muss beim Logout der Token ungültig gemacht werden um zu verhindern, dass weiter Benachrichtigungen an das Gerät gesendet werden.
 
-Hierbei ist es nicht nötig, anzugeben, dass NFC benötigt wird (`<uses-feature ... required="true" />` ), da die Applikation nicht darauf angewiesen ist, dass das Gerät NFC besitzt. Ist dies zum Beispiel der Fall, wird zum "Fallback" über die Suche eines anderen Nutzers über seine E-Mail-Adresse weitergeleitet. Also soll die App auch Nutzern im Play Store angezeigt werden, die kein NFC besitzen.
+Die Klasse *MyFirebaseMessagingService* erweitert die Firebase-Klasse *FirebaseMessagingService* und definiert in der Methode *onMessageReceived* das Verhalten bei Empfang einer Push Benachrichtigung. Da wir ausschließlich mit *Data Messages* (nicht mit *Notification Messages*) arbeiten, wird diese Funktion bei jedem Empfang aufgerufen, unabhängig davon, ob die App im Vordergrund oder Hintergrund läuft. Die Nachrichtstypen werden im [Leitfaden](https://firebase.google.com/docs/cloud-messaging/android/receive) von Firebase genauer beschrieben. 
 
-Die Logik zum Aufbau der NFC Verbindung ist in der *AddFriendNfcActivity* implementiert. In der *onCreate* Methode wird auf die Klasse *NfcAdapter* zugegriffen und die jeweiligen Callbacks bei Erkennen eines anderen Gerätes und beim erfolgreichen Senden einer Nachrichten festgelegt.
-
-```java
-NfcAdapter nfcAdapter = NfcAdapter.getDefaultAdapter(this);
-//check if nfc is available
-if (nfcAdapter == null) {  
-	//if that is the case we redirect to the add friend via email activity
-    ...
-} else {
-	//check if NFC is enabled
-    if (nfcAdapter.isEnabled()) {
-    	//This will refer back to createNdefMessage for what it will send
-        nfcAdapter.setNdefPushMessageCallback(this, this);
-        //This will be called if the message is sent successfully
-        nfcAdapter.setOnNdefPushCompleteCallback(this, this);
-    } else {
-    	//tell user to enable NFC and return to previous activity
-		...
-        }
-}
-```
-
-Zur Vereinfachung des hier dargestellten Codes wurde rausgelassen, was geschieht, falls das Gerät kein NFC besitzt oder es nicht aktiviert ist. 
-
-Die Klasse implementiert zudem die Interfaces *NfcAdapter.CreateNdefMessageCallback* und *NfcAdapter.OnNdefPushCompleteCallback*. Deshalb müssen die Funktionen *createNdefMessage* und *onNdefPushComplete* enthalten sein. In ersterer Methode wird die Nachricht, die geschickt werden soll, zusammengestellt. Hierfür wird die Id des Users aus den *SharedPreferences* ausgelesen und der Nachricht hinzugefügt. 
-
-```java
-@Override
-public NdefMessage createNdefMessage(NfcEvent nfcEvent) {
-	//create ndef message that contains the user id, which we want to send to the other device
-    String userId = Preferences.getUserId(this);
-    return new NdefMessage(new NdefRecord[]{
-    	createMime("text/plain", userId.getBytes(Charset.forName("UTF-8"))),
-        NdefRecord.createApplicationRecord(getPackageName())
-	});
-}
-```
-
-NDEF ist ein standardisiertes Datenformat, das dazu verwendet wird, Informationen zwischen einem kompatiblen NFC Gerät und einem anderen NFC Gerät oder Tag auszutauschen.
-
-Der Nutzer muss, sobald er seine Orte mit einem anderen Nutzer austauschen will, lediglich die Activity öffnen (dorthin wird er über einen Button im *FriendsFragment* geleitet) und sein Gerät and das des anderen Nutzers halten. Der zweite Nutzer muss weder in der gleichen Activity sein, noch überhaupt die App geöffnet haben. Sobald das Gerät erkannt wird, wird nämlich direkt die *AddFriendNfcActivity* geöffnet (sie befasst sich nämlich nicht zu mit dem Senden der Daten, sondern auch mit dem Empfangen). Dass dies geschehen soll, wird über einen *Intent Filter* im Android Manifest festgelegt.
-
-```xml
-<activity
-	android:name=".activities.AddFriendNfcActivity"
-	android:label="@string/label_AddFriendNfcActivity">
-	<intent-filter>
-		<action android:name="android.nfc.action.NDEF_DISCOVERED" />
-    	<category android:name="android.intent.category.DEFAULT" />
-        <data android:mimeType="text/plain" />
-	</intent-filter>
-</activity>
-```
-
-In der *onResume* Methode wird nun der Intent empfangen und eine Funktion aufgerufen, die diesen weiterverarbeiten soll.
-
-```java
-@Override
-public void onResume() {
-	super.onResume();
-    handleNfcIntent(getIntent());
-}
-```
-
-Die Methode *handleNfcIntent* liest daraufhin die Daten (die Id des anderen Nutzers) und sendet einen Request an den Server, um die "Freundesbeziehung" zu begründen.
-
-## Push-Benachrichtigungen
-
-Wie bereits angedeutet, wird für die Funktionalität die Cloud Messaging Lösung von Firebase verwendet. Um die Umsetzung der Funktionalität kümmern sich zwei Klassen im Package *services*. 
-
-Die Klasse *MyFirebaseInstanceIDService* erweitert die Firebase Klasse *FirebaseInstanceIdService*. In dem von uns angelegten Service wird die Funktion *onTokenRefresh* implementiert, die bei jeder Erst- und Neugenerierung eines FCM Tokens aufgerufen wird. Dieser Token wird dafür verwendet, um zwischen verschiedenen Geräten zu unterscheiden. Das bedeutet das ein Token für ein Endgerät steht, unabhängig vom Account des Nutzers. Da wir im serverseitigen Code wissen müssen, an welches Gerät eine Push Benachrichtigung geschickt werden soll, wird der Token bei jeder Generierung (z.B. wird ein Token neu kreiert, wenn der Nutzer die App auf seinem neuen Handy installiert) an das Backend zur Speicherung im Eintrag des Nutzers geschickt. 
-
-Die Klasse *MyFirebaseMessagingService* erweitert die Firebase Klasse *FirebaseMessagingService* und definiert in der Methode *onMessageReceived* das Verhalten bei Empfang einer Push Benachrichtigung vom Server. Da wir ausschließlich mit *Data Messages* (nicht mit *Notification Messages*) arbeiten, wird diese Funktion bei jedem Empfang aufgerufen, unabhängig davon, ob die App im Vordergrund oder Hintergrund ist. Für eine genauere Unterscheidung der Nachrichtentypen verweisen wir an diesem Punkt auf den [Leitfaden](https://firebase.google.com/docs/cloud-messaging/android/receive) von Firebase. 
-
-Im Manifest wird angegeben, dass diese Services bei den entsprechenden Ereignissen aufgerufen werden sollen.
-
-```xml
-<service
-	android:name=".services.MyFirebaseMessagingService"
-    android:exported="false">
-    <intent-filter>
-    	<action android:name="com.google.firebase.MESSAGING_EVENT" />
-	</intent-filter>
-</service>
-<service
-	android:name=".services.MyFirebaseInstanceIdService"
-    android:exported="false">
-    <intent-filter>
-    	<action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
-	</intent-filter>
-</service>
-```
-
-Da wir dem Nutzer eine visuelle Benachrichtigung anzeigen wollen, wenn die App im Hintergrund ist, wird bei Empfang einer Push Notification mittels der Klasse *NotificationCombat.Builder* eine Benachrichtigung kreiert. 
-
-Im aktuellen Stand des Produktes verwenden wir Push Benachrichtigungen an zwei Stellen, jeweils das Hinzufügen eines neuen Freundes betreffen. 
-
-Wenn der Nutzer seine Orte in der *AddFriendEmailActivity* mit einem zweiten Nutzer teilt, so soll dieser benachrichtigt werden. Hier kommt auch die visuelle Benachrichtigung, die im letzten Absatz beschrieben wurde, ins Spiel. Diese Benachrichtigung enthält einen Button "Share your's, too", der dem zweiten Nutzer die Möglichkeit gibt direkt ebenfalls seine Orte zu teilen. Dies läuft über den dritten Service im services Package, den *NotificationActionService*, der einen *IntentService* erweitert. Hier wird ein Request an den Server gesendet durch den der Nutzer seine Orte nun auch teilt. 
-
-Die zweite Anwendung der Push Notification Funktion von Firebase ist das Hinzufügen eines Freundes via NFC. Da uns bei der Übertragung durch NFC, ohne zu große negative Beeinflussung der User Experience, nur eine unidirektionale Übertragung möglich ist, dient uns die Möglichkeit der Push Notifications als Lösung dieses Problems. Das Initiator-Gerät der NFC Verbindung schickt die Id seines Users and das zweite Gerät. Dieses sendet nun einen Request an den Server, um die Orte seines Nutzers zu teilen. Das Backend verarbeitet diese Anfrage und schickt daraufhin eine Push Benachrichtigung mit der Id des Nutzers des zweiten Gerätes an das Initiator-Gerät, das nun wiederum einen Request zum Teilen der Orte absendet. Dies läuft jedoch alles im Hintergrund ab (hier wird im Vergleich zum vorherigen Anwendungsfall keine visuelle Benachrichtigung angezeigt), sodass die Nutzer davon nichts mitbekommen, um so eine möglichst reibungslose Nutzererfahrung zu gewährleisten. Dieses etwas kompliziert erscheinende Verfahren ist nötig, um die Sicherheit der Rest API mit einer definierten Authentifizierungsstrategie zu kompromittieren. Jeder User darf nämlich nur seine Orte mit einem anderen teilen, jedoch nicht umgekehrt. Für die Details siehe hierzu das Kapitel, das sich mit der Implementierung des Backends befasst.
+Im Manifest wird angegeben, dass diese Services bei den entsprechenden Ereignissen aufgerufen werden sollen. Um dem Nutzer eine visuelle Benachrichtigung anzuzeigen, wenn die App im Hintergrund läuft, wird bei Empfang einer Push Notification mittels der Klasse *NotificationCombat.Builder* eine Benachrichtigung erzeugt.
 
 ## Offline-Nutzung
 
-Die Applikation soll, zwar vorerst mit Einschränkungen, auch offline eine zufriedenstellende User Experience bieten. So wird zum Beispiel in den Fragments der *HomeActivity* abgefragt, ob der Nutzer eine Internet Verbindung besitzt. Die hierfür benötigte Methode wurde in der *Request* Klasse implementiert. Ist der Nutzer zum Beispiel offline, wird im *MyLocationsFragment* und *MyFriendsFragment* anstatt, dass dort die jeweils relevanten Daten geladen werden, eine abgeänderte Anzeige angezeigt. Diese soll den Nutzer darüber informieren, dass er gerade keinen Zugriff zum Internet besitzt. Siehe hierzu das Kapitel Design.
+Wanderlust soll auch offline eine zufriedenstellende User Experience bieten. Zum gegenwärtigen Zeitpunkt bedeutet das, dass der User über eine fehlende Internetverbindung informiert wird, sowie dass Freunde über NFC auch offline hinzugefügt werden können. Dafür werden noch hinzuzufügende Freunde in den Shared Preferences gespeichert. Beim Öffnen der HomeActivity werden dann für diese Freunde die entsprechenden Requests durchgeführt.
 
-Des Weiteren besteht weiterhin die Möglichkeit Freunde via NFC hinzuzufügen, auch wenn einer der beiden oder beide Nutzer über keine Netzwerkverbindung verfügt. Hierzu wird die während der NFC Verbindung übertragene Id in den *SharedPreferences* zwischengespeichert. Dies funktioniert auch für mehrere neue Freunde. Beim erneuten Start der Applikation (bzw. beim Aufrufen der *HomeActivity*) wird überprüft, ob es Freunde gibt, zu denen noch eine Beziehung aufgebaut aufgebaut werden muss. Daraufhin wird ein Request an den Server geschickt, um dies zu erledigen. 
-
-In einer nächsten Version der App wäre es vorstellbar, eine ausgeweiterte Umsetzung der Offline-Nutzung in die App zu integrieren. Eine Implementation einer vollständigen Synchronisation der Daten mit einer lokalen Datenbank (z.B. SQLite) wäre denkbar. Dadurch wäre eine gänzlich uneingeschränkten Nutzung der App auch ohne Internetverbindung gewährleistet. 
+Zukünftig wären weitere Offline-Funktionalitäten vorstellbar. Sowäre beispielsweise eine vollständige Synchronisation der Daten mit einer lokalen Datenbank denkbar. Dadurch wäre eine weitgehend uneingeschränkten Nutzung der App auch ohne Internetverbindung gewährleistet.
 
 
 ## Design
 
 ### Slogan
 
-Die Grundidee, Backpacker zusammenzubringen und ihnen den Austausch von Empfehlungen zu erleichtern, wird im Slogan "The personal way to backpack" ausgedrückt. Dadurch, dass der Nutzer nicht mehr auf anonyme Hinweise aus Foren, Reisebüros oder Touristeninformationen angewiesen ist, sondern "aus erster Hand" erfährt, welche Orte sehenswert sind, fördert den Austausch der Nutzer untereinander, was insgesamt zu einer positiven Nutzererfahrung führen soll. 
+Die Grundidee, Backpacker zusammenzubringen und ihnen den Austausch von Empfehlungen zu erleichtern, wird im Slogan "The personal way to backpack" ausgedrückt. Dass Backpacker nicht mehr auf anonyme Hinweise aus Foren, Reisebüros oder Touristeninformationen angewiesen ist, sondern "aus erster Hand" erfahren, welche Orte sehenswert sind, fördert den Austausch der Nutzer untereinander, was insgesamt zu einer positiven Nutzererfahrung führen soll. 
 
 Durch das Wort "personal" soll ausgedrückt werden, dass die App hilft, die Kommunikation über interessante Orte zu fördern, den Austausch der zugehörigen Informationen zu vereinfachen und das menschliche Bedürfnis zu befriedigen, Teil einer Gruppe zu sein. Ziel der Anwendung ist es, aus einer "anonymen" Backpacker-Reise eine persönliche zu machen, in dem man sich auf persönliche Informationen und Empfehlungen von bekannten Menschen vertraut. 
 
@@ -435,11 +218,6 @@ Auch Labels der Activities wurden in einer XML-Datei "strings.xml" hinterlegt, u
 Auch die Kategorien für die Location-Definition sind in einer XML-Datei ("") gespeichert. Wir haben uns dazu entschlossen, nicht die Kategorie-Informationen der Google-Api zu nutzen. Dies hat zum einen den Vorteil, dass  wir unsere Orte explizit auf die eingeschränkte Nutzergruppe anpassen können. Zum anderen haben wir durch die XML-Datei die Möglichkeit, die Liste schnell zu erweitern. 
 
 Alle Layouteinstellungen wurden nur für die vertikale Ausrichtung des Smartphones festgelegt, genauer genommen wurde "sensorPortrait" eingestellt, um auch eine Ansicht zu ermöglichen, wenn der Nutzer das Handy um 180° dreht. Eine Layoutanpassung an die horizontale Ausrichtung müsste in einer zweiten Entwicklungsphase ergänzt werden. 
-
-# Anforderungen an die Anwendung
-Die Anwendung setzt die Funktionalitäten von mindestens Android 5 (API-Level 21) voraus. <!--Dies hängt vor allem auch mit der Nutzung von NFC zusammen.--> 
-
-Laut einer Studie vom Januar 2018 liegt der Marktanteil der Android-Smartphones mit Versionen höher als 5.0 weltweit bei 80,7 %. ![Marktanteil der Android-Versionen an allen Geräten mit Android OS weltweit im Zeitraum 02. bis 08. Januar 2018 (Quelle: https://de.statista.com/statistik/daten/studie/180113/umfrage/anteil-der-verschiedenen-android-versionen-auf-geraeten-mit-android-os/, Zugriff: 24.01.2018)](C:\Users\Rebecca Durm\AndroidStudioProjects\wanderlust\res\statistik-android-apps.jpg)
 
 ### Navigation
 
