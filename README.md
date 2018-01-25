@@ -6,10 +6,6 @@ An der App sind drei Komponenten beteiligt. Es gibt die eigentliche App, welche 
 
 # Android-Anwendung
 
-In diesem Kapitel setzen wir uns präzise mit allen Einzelheiten der Android-Applikation auseinander.Dabei wird auf die Struktur des Projekts eingegangen: Wie sieht die Ordnerstruktur aus? Welche Packages gibt es? Welche Klassen gibt es und was ist ihre Daseinsberechtigung? Das Kapitel soll zukünftigen Entwicklern auf möglichst einfache Art und Weise einen Gesamtüberblick über das Projekt verschaffen und ihnen ermöglichen, bestimmte Details nachzuschlagen.
-
-## Funktionalität
-
 Die Android-Anwendung ist die Komponente, die tatsächlich direkt vom Nutzer verwendet wird. Eine ensprechende Webanwendung ist derzeit nicht vorgesehen, ließe sich aber aufgrund der losen Kopplung zwischen REST API und Android-Anwendung relativ problemlos dem Gesamprodukt hinzufügen.
 
 Mithilfe der Android-Anwendung können Nutzer Orte über Google Maps auswählen, diese mit einem Kommentar, Bildern sowie verschiednen Tags versehen und abspeichern. Gespeicherte Orte können dann als Favoriten markiert werden, um zu signalisieren, dass diese Orte mit Freunden geteilt werden sollen. Gespeicherte Orte lassen sich zum einen in Form einer Liste darstellen, zum anderen können sie aber auch in einer Kartenansicht eingesehen werden.
@@ -52,59 +48,55 @@ Zudem wird im Manifest angegeben, welche Features die App verwendet. Dies wird i
 
 ### Ordnerstruktur
 
-Die allgemeine übergeordnete Struktur des Projektes entspricht dem standardmäßig automatisch erstellten Android Projektes. Spezielle Eigenheiten besitzt nur der Ordner */src/main* innerhalb des */app* Ordners. Dieser ist, wie in Android Projekten üblich, in die Ordner */java* und */res* aufgeteilt, wobei ersterer, wie der Name bereits erahnen lässt, alle Java Dateien enthält, während letzterer alle Ressource-Dateien, seien es *xml*-Dateien oder Bilddateien, beinhaltet. 
+Die von Android Studio angelegte Verzeichnisstruktur wird in der entsprechenden [Dokumentation](https://developer.android.com/studio/projects/index.html) erläutert. Im Rahmen dieser Dokumentation ist das Verzeichnis */app/src/main* von Bedeutung. Java-Dateien befinden sich dabei unter */app/src/main/java*, Ressourcen wie Bilddateien oder XML-Spezifikationen befinden sich im Verzeichnis */app/src/main/res*.
 
-app							Enthält alle Dateien des Moduls app
-
-|- build.gradle				Build-Konfiguration: definiert z.B. alle Abhängigkeiten
-
-|- google-services.json		Konfigurationsdatei für Google Services (z.B. Sign In, FCM)
-
-|- keystore
-
-​	|- debug.keystore		Datei zur Zertifizierung der App (für Google Services nötig)
-
-|- src/main					Quellcode
-
-​	|- java 					Alle Java Dateien
-
-​		|- activites 			Enthält alle Activities
-
-​		|- adapters			Enthält alle Listadapter, die in Activities benutzt werden
-
-​		|- fragments			Enthält alle Fragments, die in Activities eingebunden werden
-
-​		|- helpers			Enthält Klassen mit wiederverwendbaren Funktionen
-
-​		|- models			Enthält Models, die für den JSON-Parser genutzt werden
-
-​		|- services			Enthält Services, die sich mit Push Notifications befassen
-
-​	|- res 					Alle Ressource-Dateien (vor allem .xml, aber auch Bilddateien)
-
-​		|- drawable			Enthält Icons und Bilddateien
-
-​		|- layout				Enthält alle Layouts der Activities, Fragments, Adapter etc.
-
-​		|- menu				Enthält xml-Dateien, die Listen für Menüs definieren
-
-​		|- mipmap			Enthält das Launcher Icon in verschiedenen Auflösungen
-
-​		|- values			Enthält Definitionen von verschiedenen Werten (z.b. Texte)
-
-​		|- xml				Sontige xml-Dateien
-
-​	|- AndroidManifest.xml	Wichtige Konfigurationsdatei der Anwendung (z.b. Berechtigungen)
-
-
-
-Die Bedeutung der Ordner innerhalb */res* ist in der Regel selbsterklärend und bereits von Android standardmäßig vorgegeben, weswegen in dieser Dokumentation nicht weiter darauf eingegangen wird.
-
-Viel interessanter sind jedoch die, individuell für dieses Projekt erstellte, Strukture der Packages innerhalb des */java* Ordners. Diese Struktur wurde unabhängig von Vorgaben auf Basis von Entscheidungen der Entwickler festgelegt, um um eine möglichst eindeutige Spaltung des Quellcodes in verschiedene Aufgabenbereiche zu gewährleisten. Die Vorgabe des standardmäßigen Android Projektes ist, im Vergleich zum Ressourcen-Ordner, nur einzelnes Package.
+```
+├───app
+│   ├───keystore
+│   └───src
+│       ├───androidTest
+│       │   └───java
+│       │       └───com
+│       │           └───interactivemedia
+│       │               └───backpacker
+│       ├───main
+│       │   ├───java
+│       │   │   └───com
+│       │   │       └───interactivemedia
+│       │   │           └───backpacker
+│       │   │               ├───activities
+│       │   │               ├───adapters
+│       │   │               ├───fragments
+│       │   │               ├───helpers
+│       │   │               ├───models
+│       │   │               └───services
+│       │   └───res
+│       │       ├───drawable
+│       │       ├───drawable-v24
+│       │       ├───layout
+│       │       ├───menu
+│       │       ├───mipmap-anydpi-v26
+│       │       ├───mipmap-hdpi
+│       │       ├───mipmap-mdpi
+│       │       ├───mipmap-xhdpi
+│       │       ├───mipmap-xxhdpi
+│       │       ├───mipmap-xxxhdpi
+│       │       ├───values
+│       │       ├───values-w820dp
+│       │       └───xml
+│       └───test
+│           └───java
+│               └───com
+│                   └───interactivemedia
+│                       └───backpacker
+│                           └───fragments
+└───gradle
+    └───wrapper
+```
 
 ### Java Packages
 
-Das *Java-Package*, das den gesamten Java-Quellcode enthält besteht aus mehreren Packages, die sich mit jeweils unterschiedlichen Teilen der Logik befassen.   
+Die Packages im Verzeichnis /app/src/main/java spalten den Quellcode in verschiedene Aufgabenbereiche. Jedes Packe ist für einen anderen Teil der Anwendungslogik zuständig.
 
 ####activities
 
@@ -127,7 +119,7 @@ In folgender Tabelle werden die einzelnen Activities kurz beschrieben. Um eine d
 
 ####fragments
 
-Dieses Package befasst sich mit ähnlicher Logik wie diejenige, die bereits im vorherigen Kapitel beschrieben wurde. Jedoch handelt es sich bei den den enhaltenen Klassen um Fragments. Diese stellen Bausteine dar, die innerhalb von einer Activity verwendet werden. Ein Fragment ist wiederverwendbar und kann somit von verschiedenen Activities oder in einer merhmals benutzt werden. Die bedeutensten Klassen in diesem Package sind die Fragments *MyMapFragment*, *MyListFragment*, *MyFriendsFragment* und *SettingsFragment*, da sie in der *HomeActivity*, quasi der Hauptanlaufstelle der App, eingebaut werden. Über eine Navigation kann der Nutzer durch diese vier Fragments navigieren.  In folgender Tabelle wird jedes Fragment detaillierter beschrieben. 
+Dieses Package befasst sich mit ähnlicher Logik wie der im vorherigen Abschnitt beschriebenen. Jedoch handelt es sich bei den den enhaltenen Klassen um Fragments. Diese stellen Bausteine dar, die innerhalb von einer Activity verwendet werden. Ein Fragment ist wiederverwendbar und kann somit von verschiedenen Activities oder in einer merhmals benutzt werden. Die bedeutensten Klassen in diesem Package sind die Fragments *MyMapFragment*, *MyListFragment*, *MyFriendsFragment* und *SettingsFragment*, da sie in der *HomeActivity*, quasi der Hauptanlaufstelle der App, eingebaut werden. Über eine Navigation kann der Nutzer durch diese vier Fragments navigieren.  In folgender Tabelle wird jedes Fragment detaillierter beschrieben. 
 
 | Fragment                | Funktionalität                           |
 | ----------------------- | :--------------------------------------- |
@@ -137,8 +129,6 @@ Dieses Package befasst sich mit ähnlicher Logik wie diejenige, die bereits im v
 | SettingsFragment        | Dieses Fragment beinhaltet die kleinste Funktionalität der vier "Hauptfragments". Es besteht aus 3 Buttons: "Edit Profile" leitet zur *EditProfileActivity* weiter, "Show Credits" öffnet ein Popup-Fenster, das Informationen zum Entwicklerteam der Applikation zeigt, "Logout" loggt den Nutzer aus und leitet ihn zurück zur *LoginActivity*. |
 | LocationDetailsFragment | Dieses Fragment wird verwendet, um innerhalb der *LocationDetailsActivity* über Tabs zwischen verschiedenen Ansichten von Orten zu navigieren. Dies ist der Fall, wenn ein bestimmer Ort von zwei unterschiedlichen Freunden als Favorit gesetzt ist. Hier werden also in solch einem Falle mehrere Instanzen des gleichen Fragments erstellt. Siehe den Eintrag der *LocationDetailsActivity* für eine genauere Beschreibung der Funktionalität. |
 | PictureDialogFragment   | Dieses Fragment erbt von der Android-eigenen Klasse *DialogFragment*, um somit einen individuellen Popup-Dialog zu erstellen. Es wird innerhalb der *AddLocationActivity* und *EditProfileActivity* verwendet, um dem Nutzer, sobald er ein Bild auswählen will, die Möglichkeit anzubieten, dies entweder über den Speicher zu tun oder ein neues Bild aufzunehmen. Das Fragment kann in mehreren Activities auf die gleiche Art und Weise benutzt werden, da es das Interface *PictureDialogListener* bereitstellt. Dieses Interface muss in der entsprechenden Activity implementiert werden, um die Funktionalität bei Klick auf eines der Elemente des Dialogs zu bestimmen. |
-
-
 
 #### helpers
 
@@ -151,25 +141,21 @@ In diesem Package befinden sich mehrere Klassen, die den Entwicklern während de
 | Storage      | Diese Klasse befasst sich mit einigen Funktionalitäten, die den lokalen Gerätespeicher betreffen. Die beinhalteten Funktionen sind vor allem in den Activities wichtig, in denen Bilder aufgenommen werden oder vom Speicher ausgewählt werden. |
 | MarkerColors | Eine sehr kleine Klasse, die die verschiedenen Farben für die Marker, die in der Kartenansicht angezeigt werden sollen, als Variablen hält und eine Funktion zur Berechnung der entsprechenden Farbe (abhängig vom jeweiligen Freund) zur Verfügung stellt. |
 
-
-
 #### Sonstige
 
 Das Package *adapters* enthält verschiedene Klassen, die von bereits bestehenden Adapterklassen (in der Regel *ArrayAdapter*) erben und dafür genutzt werden, die *ListViews* innerhalb der Activities oder Fragments zu befüllen und Änderungen zu behandeln.
 
-Das Package *models* enthält die Modelklassen. Eine genauere Beschreibung finden Sie in dem sich explizit damit befassenden Kapitel Models. 
+Das Package *services* enthält mehrere Klassen, die von bestimmten Services erben. Diese werden für die Funktionalität der Push Notifications benötigt. Sie werden ebenfalls in einem eigenen Abschnitt der Dokumentation (Push Notifications) genauer beschrieben.
 
-Das Package *services* enthält mehrere Klassen, die von bestimmten Services erben. Diese werden für die Funktionalität der Push Notifications benötigt. Sie werden ebenfalls in einem eigenen Kapitel (Push Notifications) genauer beschrieben.
-
-
+Das Package *models* enthält die Modelklassen. Eine genauere Beschreibung finden Sie in dem sich explizit im folgenden Abschnitt. 
 
 ## Models
 
-Dieses Kapitel befasst sich mit den clientseitigen Modelklassen. Diese Objekte stehen repräsentativ für Objekte der realen Welt. Innerhalb des Projektes wird vielmals auf diese Klassen zugegriffen, um somit einen einfach zu schreibenden und gut lesbaren Code zu ermöglichen. Die Models im Android Projekt besitzen zwar ihr passendes Gegenstück im Backend, jedoch sind sie nicht untrennbar miteinander verbunden und können Unterschiede zu den Models im serverseitigen Code aufweisen. Von großer Bedeutung sind die Models auch aus dem Grund, dass die Bibliothek *Gson* auf sie zugreift, um die in JSON formatierte Antwort des Servers in handhabbare Objekte zu verwandeln.
+Das Package *models* definiert clientseitige Modelklassen. Diese stehen repräsentativ für Objekte der realen Welt. Das ermöglicht einfach zu schreibenden und lesbaren Code. Die Models im Android Projekt besitzen zwar ihr passendes Gegenstück im Backend, jedoch sind sie nicht untrennbar miteinander verbunden und können Unterschiede zu den Models im serverseitigen Code aufweisen. Von großer Bedeutung sind die Models auch aus dem Grund, dass die Bibliothek *Gson* auf sie zugreift, um die in JSON formatierte Antwort des Servers in handhabbare Objekte zu verwandeln.
 
 ### User
 
-Das *User* Model repräsentiert einen Menschen im echten Leben. Das Model kann im Rahmen des Projektes jedoch auf verschiedene Arten genutzt werden. Zum einen ist der aktuelle Nutzer ein User, zum Anderen sind dies auch seine Freunde. Ein User besteht nicht nur aus einfacheren Daten wie seines Vornamens und Nachnamens, sondern er besitzt auch eine Liste von Orten (sogenannten Locations, siehe nächstes Kapitel), oder ein Profilbild. Das Bild ist eine einfache URL, die benutzt werden kann, um das Profilbild des Users herunterzuladen und anzuzeigen. Die zum Model dazugehörige Klasse bietet alle nötigen Getter-Methoden, um auf die Felder zugreifen zu können.
+Das *User* Model repräsentiert einen Menschen im echten Leben. Das Model kann im Rahmen des Projektes jedoch auf verschiedene Arten genutzt werden. Zum einen ist der aktuelle Nutzer ein User, zum Anderen sind dies auch seine Freunde. Ein User besteht nicht nur aus einfacheren Daten wie seines Vornamens und Nachnamens, sondern er besitzt auch eine Liste von Orten (sogenannten Locations, siehe nächsten Abschnitt), oder ein Profilbild. Das Bild ist eine einfache URL, die benutzt werden kann, um das Profilbild des Users herunterzuladen und anzuzeigen. Die zum Model dazugehörige Klasse bietet alle nötigen Getter-Methoden, um auf die Felder zugreifen zu können.
 
 ### Location
 
@@ -704,7 +690,9 @@ Middleware, die verwendet wird um Request-Parameter zu überprüfen, sollte imme
 
 ## Datei-Uploads
 
-Bilder werden als [multipart/form-data](multipart/form-data) übertragen. Um diese serverseitig verarbeiten zu können wird das Modul [formidable](https://github.com/felixge/node-formidable) verwendet. Profilbilder werden unter */uploads/imgs/user* abgelegt, Bilder zu Locations werden unter */uploads/omgs/location* gespeichert. Um die Anwendung skalierbar zu machen, müsste der interne Speicher durch einen File Store ersetzt werden.
+Bilder werden als [multipart/form-data](multipart/form-data) übertragen. Um diese serverseitig verarbeiten zu können wird das Modul [formidable](https://github.com/felixge/node-formidable) verwendet. Da jeder Nutzer nur ein Profilbild besitzt können als Dateinamen die IDs der Nutzer verwendet werden. Für Location-Bilder werden neue IDs generiert, welche dann als Dateiname verwendet werden und in der Location gesichert werden.
+
+Profilbilder werden unter */uploads/imgs/user* abgelegt, Bilder zu Locations werden unter */uploads/omgs/location* gespeichert. Um die Anwendung skalierbar zu machen, müsste der interne Speicher durch einen File Store Server ersetzt werden.
 
 ## Notifications
 
