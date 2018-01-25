@@ -2,7 +2,7 @@
 
 Wanderlust ist eine App für Backpacker. Sie soll ihnen dabei helfen interessante Orte zu finden, indem sie ihre Lieblingsorte mit anderen Backpackern teilen. Dabei steht der persönliche Kontakt im Vordergrund. Backpacker teilen ihre Lieblingsorte nur mit Personen, die sie persönlich getroffen haben. Das erhöht die Relevanz der Empfehlungen und schränkt die Reizüberflutung an, denen Backpackern in einer neuen Stadt sowieso ausgesetzt sind.
 
-An der App sind drei Komponenten beteiligt. Es gibt die eigentliche App, welche vom Nutzer verwendet wird, eine Administrationsoberfläche, sowie ein Backend, in dem die gesamten Daten verwaltet werden und das über eine Schnittstelle von den anderen beiden Komponenten ansprechbar ist. Jede dieser Komponente befindet sich in einem eigenen Repository. Im Folgenden sollen diese Komponenten näher beschrieben werden.
+An Wanderlust sind drei Komponenten beteiligt. Es gibt die eigentliche App, welche vom Nutzer verwendet wird, eine Administrationsoberfläche, sowie ein Backend, in dem die gesamten Daten verwaltet werden und das über eine Schnittstelle von den anderen beiden Komponenten ansprechbar ist. Jede dieser Komponente befindet sich in einem eigenen Repository. Im Folgenden sollen diese Komponenten näher beschrieben werden.
 
 # Android-Anwendung
 
@@ -17,36 +17,6 @@ Für jeden gespeicherten Freund gibt es eine Detailansicht, die Daten des Nutzer
 ## Projektstruktur
 
 Im Folgenden soll der Aufbau der Android-Anwendung näher beschrieben werden. Dabei wird auf die Ordner- und Packagestruktur eingegangen, sowie die Zuständigkeit der verschiedenen Klassen beleuchtet. Sehr bedeutend ist hierfür auch eine kurze Beschreibung der Funktionalität der einzelnen UI-Komponenten wie Activities und Fragments.
-
-### Berechtigungen
-
-In der Datei *AndroidManifest.xml* werden die benötigten Berechtigungen definiert. Diese werden dem Smartphonebesitzer angezeigt, sobald er sich die App aus dem Play Store herunterladen will. Die Berechtigungen werden benötigt, um auf bestimmte Sensoren oder Funktionen des Handys zuzugreifen.
-
-Die Berechtigungen werden in der Form
-
- `<uses-permission android:name="android.permission.INTERNET" />` angegeben.
-
-| Berechtigung           | Für welche Funktion?                     |
-| ---------------------- | ---------------------------------------- |
-| INTERNET               | Kommunikation über das Internet mit dem Backend und den Google APIs. |
-| ACCESS_NETWORK_STATE   | Einholen von Netzwerkinformationen, um z.B. herauszufinden ob eine Internetverbindung besteht. |
-| ACCESS_FINE_LOCATION   | Zugriff auf die genaue Position des Handys: Wichtig für den *PlacePicker*. |
-| WRITE_EXTERNAL_STORAGE | Schreibzugriff auf den externen Speicher: Zum Speichern der aufgenommenen Bilder in den Speicher, um sie daraufhin hochladen zu können. |
-| READ_EXTERNAL_STORAGE  | Lesezugriff auf den externen Speicher: Zum Abrufen der aufgenommenen Bilder oder zum Auswählen von bereits gespeicherten Bildern für das eigene Profil oder eine neue Location. |
-| NFC                    | Zugriff auf NFC Funktionen: Zum Hinzufügen neuer Freunde. |
-
-Ab Android 6.0 muss, um auf den externen Speicher zuzugreifen, eine zusätzliche Berechtigung zur Laufzeit eingeholt werden. Dies gilt für alle als gefährlich eingestuften Berechtigungen. Siehe hierzu diesen [Leitfaden](https://developer.android.com/training/permissions/requesting.html). 
-
-Zudem wird im Manifest angegeben, welche Features die App verwendet. Dies wird in der Form 
-
-`<uses-feature android:name="android.hardware.camera" />` eingetragen. 
-
-| Feature | Für welche Funktion?                     |
-| ------- | ---------------------------------------- |
-| nfc     | Hinzufügen von Freunden                  |
-| camera  | Aufnehmen von Profilbildern oder Bilder, die man einem Ort hinzufügen kann. |
-
-### Ordnerstruktur
 
 Die von Android Studio angelegte Verzeichnisstruktur wird in der entsprechenden [Dokumentation](https://developer.android.com/studio/projects/index.html) erläutert. Im Rahmen dieser Dokumentation ist das Verzeichnis */app/src/main* von Bedeutung. Java-Dateien befinden sich dabei unter */app/src/main/java*, Ressourcen wie Bilddateien oder XML-Spezifikationen befinden sich im Verzeichnis */app/src/main/res*.
 
@@ -94,93 +64,56 @@ Die von Android Studio angelegte Verzeichnisstruktur wird in der entsprechenden 
     └───wrapper
 ```
 
-### Java Packages
 
-Die Packages im Verzeichnis /app/src/main/java spalten den Quellcode in verschiedene Aufgabenbereiche. Jedes Packe ist für einen anderen Teil der Anwendungslogik zuständig.
 
-####activities
+Die Packages im Verzeichnis */app/src/main/java* spalten den Quellcode in verschiedene Aufgabenbereiche. Jedes Package ist für einen anderen Teil der Anwendungslogik zuständig. Eine detaillierte Beschreibung der Packages erfolgt in den JavaDocs.
 
-Dieses Package enthält sämtlichen Activities, sprich die komplette UI Logik. In den Activities spielt sich die komplette Interaktion zwischen Nutzer und App. Im Projekt herrscht keine strikte Trennung in View- und Controller-Komponenten, sodass die Activities ebenfalls viel Business-Logik enthalten. So ist zum Beispiel auch das die Interaktion der App mit der REST API über sogenannte Async Tasks in den Activities aufzufinden. 
+Im Package ***activities*** befinden sich sämtliche Activities, sprich die komplette UI-Logik. Es implementiert die gesamte Interaktion zwischen Nutzer und App. Da keine strikte Trennung von View- und Controller-Komponenten besteht, enthalten Activities auch Business-Logik, wie beispielsweise die Interaktion mit dem Backend. Die Darstellung des UI wird durch eine entsprechende XML-Datei in */app/src/main/res* definiert.
 
-Jede Activity greift auf eine entsprechende xml-Datei zu, um das User Interface anzeigen zu lassen. Über die in den Activities implementierten Logik wird die Anzeige verändert und Interaktionen des Users werden behandelt. 
+***fragments*** implementiert Klassen, die von den Activities verwendet werden. Sie sind an keine bestimmte Activity gebunden, sondern lassen sich einfach wiederverwenden. Wichtige Fragmente sind *MyMapFragment*, *MyListFragment*, *MyFriendsFragment* und *SettingsFragment*. Sie sind in die *HomeActivity*, quasi der Hauptanlaufstelle der App, eingebunden. Der Nutzer kann dort zwischen diesen Fragmenten navigieren.
 
-In folgender Tabelle werden die einzelnen Activities kurz beschrieben. Um eine detaillierte Dokumentation der Funktionen innerhalb der Activities zu erhalten, können Sie auf die javadocs zurückgreifen.
+Das Package ***helpers*** stellt Hilfsklassen zur Verfügung, welche die Implementierung der Logik vereinfachen. Sie reduzieren die Komplexität der Activities und Fragmente, reduizieren Redundanz und verbessern die Lesbarkeit. Die Hilfsfunktionen sind statisch implementiert, es wird also keine Instanziierung der Hilfsklassen benötigt. Da es sich um reine Hilfsfunktionen handelt, muss der Kontext wie beispielsweise Shared Preferences als Parameter übergeben werden.
 
-| Activity                | Funktionalität                           |
-| ----------------------- | ---------------------------------------- |
-| LoginActivity           | Dies ist die Launcher Activity (d.h. beim Start der App wird diese Activity aufgerufen). Ein Button gibt dem Nutzer die Möglichkeit, sich über Google anzumelden/einzuloggen. Sobald der Nutzer eingeloggt ist, wird er zur *HomeActivity* weitergeleitet. Ist der Nutzer bereits eingeloggt, wird er ohne weitere Nutzerinteraktion direkt weitergeleitet. |
-| HomeActivity            | Dies ist die für den Nutzer bedeutendste Activity, da sie die Hauptnavigation (über eine sogenannte *Bottom Navigation*) integriert und somit zwischen 4 verschiedenen Fragments (siehe Kapitel zum Package *fragments*) umschaltet. |
-| AddLocationActivity     | Der Nutzer wählt einen Ort über den sogenannenten *PlacePicker* aus. Dieser ist ein integriertes UI-Widget als Teil der *Google Places API*. Dem ausgewählten Ort kann der Nutzer optional Kategorien, eine Beschreibung sowie ein oder mehrere Bilder hinzufügen. |
-| FriendDetailsActivity   | Die Activity zeigt dem Nutzer Name und Profilbild eines befreundeten Nutzers mit einer Listenansicht dessen favorisierter Orte. Diese können nach Ländern gefiltert werden. Ein Button bietet die Option, den Nutzer, nach der Bestätigung in einem Popup, aus der Freundesliste zu entfernen. |
-| LocationDetailsActivity | Diese Activity zeigt dem Nutzer die Beschreibung, Kategorien und Bilder zu einem Ort an. Wurde dieser Ort von mehreren Nutzern hinzugefügt, so kann über Reiter (z.b. "Name 1", "Name 2") zwischen den Daten und Bildern, die von unterschiedlichen Nutzern hinzugefügt wurden, gewechselt werden. Die Funktionalität wird im *LocationDetailsFragment* implementiert. |
-| AddFriendNfcActivity    | Durch eine NFC-Verbindung wird eine digitale Freundesbeziehung zweier Nutzer aufgebaut. Bei der Übertragung werden nur die jeweiligen User-IDs ausgetauscht. Die Freunde werden durch einen Request zum Backend hinzugefügt. Dadurch werden die Nutzer nun in der Freundesliste und deren Orte auf der Karte des jeweils Anderen angezeigt. Im Vergleich zur *AddFriendEmailActivity* wird in diesem Vorgehen auf jeden Fall eine bidirektionale Freundschaftsbeziehung aufgebaut, d.h. beide Nutzer teilen ihre Orte mit dem anderen. |
-| AddFriendEmailActivity  | Diese Activity dient als "Fallback", falls eines der Geräte der Nutzer, die ihre Orte miteinander tauschen wollen, kein NFC besitzen, oder falls keine unmittelbare räumliche Nähe der beiden Nutzer besteht. Zu ihr wird automatisch weitergeleitet, wenn das Handy kein NFC besitzt. Außerdem ist sie über einen Button in der *AddFriendNfcActivity* erreichbar. Es kann anhand einer E-Mail-Adresse kann nach einem anderen Nutzer gesucht werden. Nach einer erfolgreichen Suche wird der Name und das Profilbild des Gesuchten angezeigt. Über einen Button kann der Nutzer mit diesem seine Favoritenliste teilen. Der andere Nutzer wird daraufhin (via *Push Notification*) davon benachrichtigt und kann nun ebenfalls seine Orte teilen. |
-| EditProfileActivity     | Die aktuellen Nutzerdaten (inklusive Profilbild) werden hier angezeigt, sodass der Nutzer über eine Eingabefläche seinen Vor- und Nachnamen ändern, ein Profilbild hinzufügen oder das bestehende ändern kann. |
+Das Package ***adapters*** enthält von Adapterklassen wie dem *ArrayAdapter* abgeleitete Klassen, mit denen die *ListViews* innerhalb der Activities oder Fragments befüllt und Änderungen behandelt werden.
 
-####fragments
+Im ***services***-Package befinden sich Service-Klassen, die für Push-Benachrichtigungen benötigt werden.
 
-Dieses Package befasst sich mit ähnlicher Logik wie der im vorherigen Abschnitt beschriebenen. Jedoch handelt es sich bei den den enhaltenen Klassen um Fragments. Diese stellen Bausteine dar, die innerhalb von einer Activity verwendet werden. Ein Fragment ist wiederverwendbar und kann somit von verschiedenen Activities oder in einer merhmals benutzt werden. Die bedeutensten Klassen in diesem Package sind die Fragments *MyMapFragment*, *MyListFragment*, *MyFriendsFragment* und *SettingsFragment*, da sie in der *HomeActivity*, quasi der Hauptanlaufstelle der App, eingebaut werden. Über eine Navigation kann der Nutzer durch diese vier Fragments navigieren.  In folgender Tabelle wird jedes Fragment detaillierter beschrieben. 
-
-| Fragment                | Funktionalität                           |
-| ----------------------- | :--------------------------------------- |
-| MapFragment             | Dieses Fragment bietet eine große Funktionalität und ist die komplexeste Klasse des Projektes. Es zeigt dem Nutzer eine Kartenansicht mit Markern für seine eigenen Orte und den Favoriten von befreundeten Nutzern. Über eine Filteroption lassen sich Orte nach Freunden filtern. Dies wird über eine Liste innerhalb eines *Drawers* realisiert. Für die Karte wird die von Android bereitgestellte *Mapview* verwendet. Für die jeweiligen Marker wird bei Klick individuelles Popup-Fenster geöffnet, das ein Bild und entsprechende Daten des Ortes anzeigt. Die Marker haben je nach Zugehörigkeit zu einem Freund unterschiedliche Farben. Sollte ein bestimmter Ort von mehreren Freunden gespeichert sein, wird ein entsprechender, spezieller Marker benutzt. Über einen Klick auf das Popup-Fenster wird der Nutzer zu *LocationDetailsActivity* weitergeleitet. Ein runder Button am Rande der Karte leitet den Nutzer zur *AddLocationActivity* weiter. Das *MapFragment* wird nur einmal innerhalb der Applikation verwendet, und zwar wird es in die *HomeActivity* eingebaut. |
-| MyListFragment          | Dieses Fragment zeigt dem Nutzer eine Listenansicht seiner eigenen Orte an. Durch einen *ImageViewButton* (in Form eines Herzens), können diese Orte als Favorit gesetzt werden oder dies rückgängig gemacht werden. Nur falls ein Ort Favorit ist, wird dieser den Freunden angezeigt. Klickt der Nutzer einen Listeneintrag, gelangt er zur *LocationDetailsActivity*. Über den gleichen Button wie im *MapFragment* wird der Nutzer zur *AddLocationActivity* weitergeleitet. Wie auch das *MapFragment* wird auch dieses Fragment nur innerhalb der *HomeActivity* verwendet. |
-| FriendsFragment         | Hier wird dem Nutzer eine Liste seiner Freunde (Name und Profilbild) angezeigt. Durch Auswahl eines Listenelements wird die *FriendDetailsActivity* aufgerufen.  Über einen Button wird der Nutzer zur *AddFriendNfcActivity* bzw. zur *AddFriendEmailActivity* bei nicht vorhandenem NFC. Dies wird aber erst innerhalb ersterer Activity überprüft. Auch dieses Fragment wird ausschließlich in die *HomeActivity* integriert. |
-| SettingsFragment        | Dieses Fragment beinhaltet die kleinste Funktionalität der vier "Hauptfragments". Es besteht aus 3 Buttons: "Edit Profile" leitet zur *EditProfileActivity* weiter, "Show Credits" öffnet ein Popup-Fenster, das Informationen zum Entwicklerteam der Applikation zeigt, "Logout" loggt den Nutzer aus und leitet ihn zurück zur *LoginActivity*. |
-| LocationDetailsFragment | Dieses Fragment wird verwendet, um innerhalb der *LocationDetailsActivity* über Tabs zwischen verschiedenen Ansichten von Orten zu navigieren. Dies ist der Fall, wenn ein bestimmer Ort von zwei unterschiedlichen Freunden als Favorit gesetzt ist. Hier werden also in solch einem Falle mehrere Instanzen des gleichen Fragments erstellt. Siehe den Eintrag der *LocationDetailsActivity* für eine genauere Beschreibung der Funktionalität. |
-| PictureDialogFragment   | Dieses Fragment erbt von der Android-eigenen Klasse *DialogFragment*, um somit einen individuellen Popup-Dialog zu erstellen. Es wird innerhalb der *AddLocationActivity* und *EditProfileActivity* verwendet, um dem Nutzer, sobald er ein Bild auswählen will, die Möglichkeit anzubieten, dies entweder über den Speicher zu tun oder ein neues Bild aufzunehmen. Das Fragment kann in mehreren Activities auf die gleiche Art und Weise benutzt werden, da es das Interface *PictureDialogListener* bereitstellt. Dieses Interface muss in der entsprechenden Activity implementiert werden, um die Funktionalität bei Klick auf eines der Elemente des Dialogs zu bestimmen. |
-
-#### helpers
-
-In diesem Package befinden sich mehrere Klassen, die den Entwicklern während der Implementierung der Logik das Leben vereinfachen sollen. Die Klassen beinhalten Funktionen, die an verschiedenen Stellen benutzt werden. So wird der zu schreibende Code innerhalb der Activities und Fragments auf das Minimum reduziert und der Code deutlich lesbarer gemacht. Zudem müssen Änderungen jeweils nur an einer Stelle angepasst werden. Die Funktionen sind jeweils als statische Funktionen implementiert, um sie ohne die Instanziierung der Objekte benutzen zu können (vergleichbar mit vielen Android-eigenen Klassen). Wird innerhalb der Funktionen Zugriff auf kontextspezifische Funktionen benötigt (z.B. Abrufen von Daten aus den *SharedPreferences*), so muss in den Activities der jeweilige *Context* als Parameter übergeben werden. In der folgenden Tabelle finden Sie einen Überblick über diese kleinen Helfer.
-
-| Klasse       | Funktion                                 |
-| ------------ | ---------------------------------------- |
-| Request      | Diese Klasse implementiert Methoden, die ständig benutzt werden. In quasi jeder Activity oder jedem Fragment werden Request and den Server geschickt, sodass es sehr sinnvoll erschien, solchen Code nach dem *dry* Prinzig nicht ständig zu wiederholen. Daher werden hier mehrere statische Klassen zur Verfügung gestellt, die je nach Request-Art (GET, POST, PUT oder PATCH) verwendet werden sollen. Die Verbindung zum Server wird über eine *HttpUrlConnection* hergestellt. Die einzelnen Funktionen arbeiten nicht in einem eigenen Thread, sodass sie der Entwickler vorher in einen neuen Thread oder *AsyncTask* (was in dem Projekt durchgängig verwendet wird) eingliedern muss, da Netzwerkanfragen (verständlicherweise!) nicht im UI-Thread ausgeführt werden dürfen. |
-| Preferences  | Diese Klasse stellt einige Funktionen zur Verfügung, um Werte (z.B. den Authentifizierungs-Token) lokal und persistent in den *SharedPreferences* zu speichern und diese auch abzurufen. |
-| Storage      | Diese Klasse befasst sich mit einigen Funktionalitäten, die den lokalen Gerätespeicher betreffen. Die beinhalteten Funktionen sind vor allem in den Activities wichtig, in denen Bilder aufgenommen werden oder vom Speicher ausgewählt werden. |
-| MarkerColors | Eine sehr kleine Klasse, die die verschiedenen Farben für die Marker, die in der Kartenansicht angezeigt werden sollen, als Variablen hält und eine Funktion zur Berechnung der entsprechenden Farbe (abhängig vom jeweiligen Freund) zur Verfügung stellt. |
-
-#### Sonstige
-
-Das Package *adapters* enthält verschiedene Klassen, die von bereits bestehenden Adapterklassen (in der Regel *ArrayAdapter*) erben und dafür genutzt werden, die *ListViews* innerhalb der Activities oder Fragments zu befüllen und Änderungen zu behandeln.
-
-Das Package *services* enthält mehrere Klassen, die von bestimmten Services erben. Diese werden für die Funktionalität der Push Notifications benötigt. Sie werden ebenfalls in einem eigenen Abschnitt der Dokumentation (Push Notifications) genauer beschrieben.
-
-Das Package *models* enthält die Modelklassen. Eine genauere Beschreibung finden Sie in dem sich explizit im folgenden Abschnitt. 
+Im Package ***models*** befinden sich verschiedene Modelklassen, die im folgenden Abschnitt beschrieben werden.
 
 ## Models
 
-Das Package *models* definiert clientseitige Modelklassen. Diese stehen repräsentativ für Objekte der realen Welt. Das ermöglicht einfach zu schreibenden und lesbaren Code. Die Models im Android Projekt besitzen zwar ihr passendes Gegenstück im Backend, jedoch sind sie nicht untrennbar miteinander verbunden und können Unterschiede zu den Models im serverseitigen Code aufweisen. Von großer Bedeutung sind die Models auch aus dem Grund, dass die Bibliothek *Gson* auf sie zugreift, um die in JSON formatierte Antwort des Servers in handhabbare Objekte zu verwandeln.
+Die im Package *models* definierten Modellklassen repräsentieren Objekte der realen Welt. Sie besitzen zwar Gegenstücke im Backend, sind aber tatsächlich unabhängig voneinander. Sie können durchaus Unterschiede aufweisen. Die clientseitigen Models werden auch von Gson genutzt, um die JSON-formatierten Server-Antworten in Java-Objekte umzuwandeln. Modellklassen stellen neben den Daten auch entsprechende Getter-Methoden zur Verfügung um auf diese zuzugreifen.
 
 ### User
 
-Das *User* Model repräsentiert einen Menschen im echten Leben. Das Model kann im Rahmen des Projektes jedoch auf verschiedene Arten genutzt werden. Zum einen ist der aktuelle Nutzer ein User, zum Anderen sind dies auch seine Freunde. Ein User besteht nicht nur aus einfacheren Daten wie seines Vornamens und Nachnamens, sondern er besitzt auch eine Liste von Orten (sogenannten Locations, siehe nächsten Abschnitt), oder ein Profilbild. Das Bild ist eine einfache URL, die benutzt werden kann, um das Profilbild des Users herunterzuladen und anzuzeigen. Die zum Model dazugehörige Klasse bietet alle nötigen Getter-Methoden, um auf die Felder zugreifen zu können.
+Das *User* Model repräsentiert Backpacker, die Wanderlist verwenden. Es wird sowohl für den eingeloggten Nutzer, als auch für seine Freunde genutzt. Ein User besitzt neben seinen persönlichen Informationen auch eine Freundesliste und eine Liste hinzugefügter Orte. Außerdem kann er ein Profilbild besitzen, das über eine URL definiert wird.
 
 ### Location
 
-Das *Location* Model repräsentiert einen x-y-beliebigen Ort in der Welt. Die Locations werden von den Nutzern erstellt und gespeichert, damit er sie daraufhin einsehen, verwalten und mit seinen Freunden teilen kann. Eine Location besitzt eine klare Abhängigkeit zum User. Eine Location gehört immer nur einem User an und jeder User kann mehrere Locations besitzen. Jede Location ist einzigartig. Auch wenn verschiedene Nutzer den gleichen realen Ort (z.B. die Stadt London) hinzufügen, so existieren in der Welt unserer Applikation jedoch mehrere Einträge dieses Ortes. Diese unterschiedlichen Einträge können nämlich auch komplett unterschiedliche Daten (z.B. Beschreibung, Kategorien) enthalten. Für eine Location wird jedoch auch die *googleId* (eine eindeutig identifierende Id der Google Places API) gespeichert, damit, wenn nötig, festgestellt werden kann, ob es sich bei zwei Location Einträgen um den gleichen Ort in der realen Welt handelt. Dies ist zum Beispiel für die Funktionalität im *MapFragment* relevant, da dort abhängig davon, ob zwei User den gleichen realen Ort besitzen, ein bestimmter Marker angezeigt werden muss. Eine Location besitzt eine Vielzahl an Daten: 
+Das *Location* Model repräsentiert tatsächliche Orte, mitsamt der Eigenschaften, die ein User ihnen zuschreibt. Ein Ort kann also mehr als einmal existieren, solange mehrere User ihn angelegt haben. Informationen wie Beschreibungen und Kategorien können sich dabei unterscheiden. Eine Location ist immer einem bestimmten Nutzer zugeordnet, ein User kann aber mehrere Locations besitzen. Da eine Location auch eine googleId besitzen kann, können Locations, die den selben physikalischen Ort beschreiben, erkannt werden. So wird beispielsweise im MapFragment jeder Ort nur einmal eingezeigt, unabhängig davon, wie viele Nutzer ihn in ihrer Favoritenliste haben.
 
-- Titel (dieser wird vom *PlacePicker* übernommen) 
-- eine Liste von Kategorien 
-- eine Beschreibung 
-- Stadt und Land 
-- Koordinaten (diese sind wichtig, damit der entsprechende Marker auf der Karte gesetzt werden kann)
-- eine Liste an Bildern (genau wie beim User als URLs) 
-- eine Angabe darüber, ob die Location ein Favorit ist oder nicht
-- der zugehörige Nutzer (jedoch nicht als User Objekt, sondern nur als Id)
+Einige Eigenschaften wie der Name, die Google-ID, die Stadt, das Land und die Koordinaten, werden durch die App vorgenommen. Die entsprechenden Informationen stellt der *PlacePicker* bereit. Andere Eigenschaften wie die passenden Kategorien, einer Beschreibung und Bildern können vom Benutzer festgelegt werden.
 
-Die Location Objekte können unabhängig vom User (also nicht als Liste innerhalb des User Objektes) auftreten. Zum Beispiel können Requests zu bestimmten Endpunkten der API geschickt werden, die lediglich eine oder mehrere Locations zurückliefern. Hier will man möglicherweise zusätzlich Daten des Users erhalten können, weswegen ein Verweis auf diesen (in Form einer Id) von Nöten ist. Außerdem ist dieser Verweis von Bedeutung, wenn eine neue Location erstellt wird, da ihr nun die Id des Nutzers hinzugefügt und dieses "Paket" an den Server geschickt werden kann. 
+## Manifest
 
-## Besonderheiten
+In der Datei *AndroidManifest.xml* werden die benötigten Berechtigungen definiert. Diese muss der Nutzer bestätigen, um die App aus dem Play Store herunterzuladen. Dies ist notwendig, damit die App auf bestimmte Sensoren oder Funktionen des Handys zugreifen kann..
 
-In diesem Kapitel werden verschiedene herrausstechende Funktionalitäten, die in die Applikation integriert sind, beschrieben. 
+Berechtigungen werden in der Form `<uses-permission android:name="android.permission.INTERNET" />` angegeben. Folgende Berechtigungen benötigt Wanderlust:
 
-### Bibliotheken und APIs
+| Berechtigung           | Für welche Funktion?                     |
+| ---------------------- | ---------------------------------------- |
+| INTERNET               | Kommunikation über das Internet mit dem Backend und den Google APIs. |
+| ACCESS_NETWORK_STATE   | Einholen von Netzwerkinformationen, um z.B. herauszufinden ob eine Internetverbindung besteht. |
+| ACCESS_FINE_LOCATION   | Zugriff auf die genaue Position des Handys: Wichtig für den *PlacePicker*. |
+| WRITE_EXTERNAL_STORAGE | Schreibzugriff auf den externen Speicher: Zum Speichern der aufgenommenen Bilder in den Speicher, um sie daraufhin hochladen zu können. |
+| READ_EXTERNAL_STORAGE  | Lesezugriff auf den externen Speicher: Zum Abrufen der aufgenommenen Bilder oder zum Auswählen von bereits gespeicherten Bildern für das eigene Profil oder eine neue Location. |
+| NFC                    | Zugriff auf NFC Funktionen: Zum Hinzufügen neuer Freunde. |
 
-In den folgenden Kapiteln wird auf die verschiedenen Bibliotheken eingegangen, die von den Entwicklern benutzt wurden, um bestimmte Probleme zu lösen oder die Implementierung von Funktionalität zu vereinfachen.
+Ab Android 6.0 müssen für als gefährlich eingestufte Berechtigungen zusätzlich eine Zustimmung zur Laufzeit eingeholt werden. Siehe hierzu diesen [Leitfaden](https://developer.android.com/training/permissions/requesting.html). Als gefährlich wird dabei auch der Zugriff auf den externen Speicher eingestuft.
 
-#### Glide
+Zudem wird im Manifest angegeben, welche Features die App verwendet. Dies wird in der Form `<uses-feature android:name="android.hardware.camera" />` eingetragen. Wanderlust verwendet NFC um Freunde hinzuzufügen und die Kamera um Profilbilder und Location-Bilder hochzuladen.
+
+## Bilder-Verwaltung
 
 Für das asynchrone Herunterladen und Anzeigen der auf dem Server gespeicherten Bilder wird die Bibliothek *[Glide](https://bumptech.github.io/glide/)* in der 4. Version verwendet. Diese erleichtert es den Entwicklern immens, den Code für das Herunterladen von Bildern (ohne die umständlichere Nutzung von *HttpUrlConnection*) auf einfache Weise zu implementieren. Der Code wird dabei sehr schlank gehalten. Außerdem bietet die Bibliothek Möglichkeiten, Callbacks zu implementieren, die ausgeführt werden, sobald ein Bild heruntergeladen wurde. Ebenso ist in Glide bereits eine Caching-Strategie integriert, die dazu führt, das bereits heruntergeladene Bilder nicht nochmals geladen werden müssen. Die Api, um Glide zu benutzen, sieht für einen einfachen Beispielsfall wiefolgt aus:
 
@@ -197,9 +130,9 @@ RequestOptions requestOptions = new RequestOptions()
 Glide.with(context).load(url).apply(requestOptions).into(imageView);
 ```
 
-#### Gson
+## Serialisierung
 
-Zur *Serialization* und *Deserialization* von Java Objekten zu bzw. von JSON verwenden wir die Bibliothek [*Gson*](https://github.com/google/gson) von Google. Diese macht als den Entwicklern deutlich einfacher als die Verwendung der *JSONObject* Klasse, mit in JSON formatiertem Text umzugehen. Durch Gson kann die Antwort des Servers in die bereits beschriebenen Model-Klassen User und Location umgewandelt werden. Auch können Objekte dieser Klassen in einen String in JSON transformiert werden, um diesen als Body im Request an den Server mitzuschicken. Des Weiteren können individuelle Strategien angelegt werden, um z.B. bestimmte Felder zu ignorieren oder auch umzubennen. 
+Zur Serialisierung  und Deserialisierung von Java-Objekten zu bzw. von JSON verwenden wir die Bibliothek [*Gson*](https://github.com/google/gson) von Google. Diese macht als den Entwicklern deutlich einfacher als die Verwendung der *JSONObject* Klasse, mit in JSON formatiertem Text umzugehen. Durch Gson kann die Antwort des Servers in die bereits beschriebenen Model-Klassen User und Location umgewandelt werden. Auch können Objekte dieser Klassen in einen String in JSON transformiert werden, um diesen als Body im Request an den Server mitzuschicken. Des Weiteren können individuelle Strategien angelegt werden, um z.B. bestimmte Felder zu ignorieren oder auch umzubennen. 
 
 In diesem Beispiel wird aus einem JSON String ein neues Object der User Klasse erstellt, auf dessen Funktionen daraufhin wie gewohnt zugegriffen werden können.
 
@@ -228,11 +161,11 @@ Location location = new Location(
                 String locationJson = gson.toJson(location);
 ```
 
-#### Firebase Cloud Messaging
+## Push Notifications
 
 Für die Integration von Push Notifications vom Server zum Android Client wird die *[Cloud Messaging](https://firebase.google.com/docs/cloud-messaging/ )* Bibliothek von *Firebase* (mittlerweile Teil von Google) verwendet. FCM hat *Google Cloud Messaging* als die von Google empfohlene Lösung zur Synchronisation von Server und Client abgelöst. Für Details zur Verwendung und Implementierung lesen sie bitte das Kapitel Push Notifications.
 
-#### PlacePicker
+## PlacePicker
 
 Der [*PlacePicker*](https://developers.google.com/places/android-api/placepicker) ist ein UI-Widget, das auf die Google Places API zugreift und mithilfe dessen man es dem Nutzer ermöglicht, auf einer Karte oder über ein Suchfeld einen Ort auszuwählen. 
 
@@ -258,7 +191,7 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
 
 
-#### Google Maps API
+## Google Maps API
 
 Die Einbindung der [*Google Maps API*](https://developers.google.com/maps/documentation/android-api/?hl=de) für Android wird in das *MyMapFragment*, in dem dem Nutzer die Kartenansicht mit seinen gespeicherten Orten und den Favoriten seiner Freund angezeigt werden, integriert. Es gibt zwei Möglichkeiten, die Karte einzubinden: das *MyMapFragment* (nicht zu verwechseln mit dem des Projekts) und die *MapView*. Dadurch, dass die *BottomNavigation* in der *HomeActivity* mit verschiedenen Fragments arbeitet und die Verschachtelung mehrere Fragments nicht empfohlen wird, greifen wir hier zur zweiten Variante. Hierfür wird die *MapView* in die zum Fragment zugehörige xml-Datei eingefügt
 
@@ -308,9 +241,9 @@ Nicht zu vergessen ist die Angabe des in der Google Console kreierten API Keys i
     android:value="AIzaSyA9yABz8sHgpRXtGuwzkgbEMY4HbqLpUwg" />
 ```
 
-#### Google Sign In
+## Google Sign In
 
-Für die Authentifizierung des Nutzers verwenden wir Google OAuth. Die dafür notwendige Logik befindet sich in der *LoginActivity*. In der *onCreate* Mehtode wird Google Sign In konfiguriert:
+Für die Authentifizierung des Nutzers verwenden wir Google OAuth. Die dafür notwendige Logik befindet sich in der *LoginActivity*. In der *onCreate* Methode wird Google Sign In konfiguriert:
 
 ```java
 // Configure sign-in to request the user's ID, email address, the ID token, and basic
@@ -352,16 +285,16 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
 In der aufgerufenen Methode *handleSignInResult* wird daraufhin der ID Token persistent auf dem Gerät gespeichert und ein Request an den Server geschickt, um den Nutzer, falls er noch nicht existiert, zu erstellen. 
 
-### NFC
+## NFC
 
-Die Applikation soll den Nutzern eine möglichst interessante und einfache Möglichkeit bieten ihre Orte miteinander zu teilen, sprich eine Freundesbeziehung aufzubauen. Hier haben wir uns dafür entschieden auf einen drahtlose Übertragung von Daten zu setzen, da den Nutzern somit eine lästige Suche von Nutzern durch Texteingabe erspart bleibt. Da es für uns nur nötig ist, eine Id der Nutzer auszutauschen, reicht für diese Übertragung NFC vollkommen aus. Außerdem bietet NFC die intuitive Möglichkeit, die Freundesbeziehung aufzubauen, indem beide Handys aneinandergelegt werden. Zur Nutzung von NFC werden die nötigen Berechtigungen im Android Manifest festgelegt. 
+Die Applikation soll den Nutzern eine möglichst interessante und einfache Möglichkeit bieten ihre Orte miteinander zu teilen, sprich eine Freundesbeziehung aufzubauen. Hier haben wir uns dafür entschieden auf einen drahtlose Übertragung von Daten zu setzen, da den Nutzern somit eine lästige Suche von Nutzern durch Texteingabe erspart bleibt. Da es für uns nur nötig ist, eine Id der Nutzer auszutauschen, reicht für diese Übertragung NFC vollkommen aus. Außerdem bietet NFC die intuitive Möglichkeit, die Freundesbeziehung aufzubauen, indem beide Handys aneinandergelegt werden. Zur Nutzung von NFC werden die nötigen Berechtigungen im Android Manifest festgelegt.
 
 ```xml
 <uses-permission android:name="android.permission.NFC" />
 <uses-feature android:name="android.hardware.nfc" />
 ```
 
-Hierbei ist es nicht nötig, anzugeben, dass NFC benötigt wird (`<uses-feature ... required="true" />` ), da die Applikation nicht darauf angewiesen ist, dass das Gerät NFC besitzt. Ist dies zum Beispiel der Fall, wird zum "Fallback" über die Suche eines anderen Nutzers über seine E-Mail-Adresse weitergeleitet. Also soll die App auch Nutzern im Play Store angezeigt werden, die kein NFC besitzen. 
+Hierbei ist es nicht nötig, anzugeben, dass NFC benötigt wird (`<uses-feature ... required="true" />` ), da die Applikation nicht darauf angewiesen ist, dass das Gerät NFC besitzt. Ist dies zum Beispiel der Fall, wird zum "Fallback" über die Suche eines anderen Nutzers über seine E-Mail-Adresse weitergeleitet. Also soll die App auch Nutzern im Play Store angezeigt werden, die kein NFC besitzen.
 
 Die Logik zum Aufbau der NFC Verbindung ist in der *AddFriendNfcActivity* implementiert. In der *onCreate* Methode wird auf die Klasse *NfcAdapter* zugegriffen und die jeweiligen Callbacks bei Erkennen eines anderen Gerätes und beim erfolgreichen Senden einer Nachrichten festgelegt.
 
@@ -429,7 +362,7 @@ public void onResume() {
 
 Die Methode *handleNfcIntent* liest daraufhin die Daten (die Id des anderen Nutzers) und sendet einen Request an den Server, um die "Freundesbeziehung" zu begründen.
 
-### Push Notifications
+## Push-Benachrichtigungen
 
 Wie bereits angedeutet, wird für die Funktionalität die Cloud Messaging Lösung von Firebase verwendet. Um die Umsetzung der Funktionalität kümmern sich zwei Klassen im Package *services*. 
 
@@ -464,7 +397,7 @@ Wenn der Nutzer seine Orte in der *AddFriendEmailActivity* mit einem zweiten Nut
 
 Die zweite Anwendung der Push Notification Funktion von Firebase ist das Hinzufügen eines Freundes via NFC. Da uns bei der Übertragung durch NFC, ohne zu große negative Beeinflussung der User Experience, nur eine unidirektionale Übertragung möglich ist, dient uns die Möglichkeit der Push Notifications als Lösung dieses Problems. Das Initiator-Gerät der NFC Verbindung schickt die Id seines Users and das zweite Gerät. Dieses sendet nun einen Request an den Server, um die Orte seines Nutzers zu teilen. Das Backend verarbeitet diese Anfrage und schickt daraufhin eine Push Benachrichtigung mit der Id des Nutzers des zweiten Gerätes an das Initiator-Gerät, das nun wiederum einen Request zum Teilen der Orte absendet. Dies läuft jedoch alles im Hintergrund ab (hier wird im Vergleich zum vorherigen Anwendungsfall keine visuelle Benachrichtigung angezeigt), sodass die Nutzer davon nichts mitbekommen, um so eine möglichst reibungslose Nutzererfahrung zu gewährleisten. Dieses etwas kompliziert erscheinende Verfahren ist nötig, um die Sicherheit der Rest API mit einer definierten Authentifizierungsstrategie zu kompromittieren. Jeder User darf nämlich nur seine Orte mit einem anderen teilen, jedoch nicht umgekehrt. Für die Details siehe hierzu das Kapitel, das sich mit der Implementierung des Backends befasst.
 
-### Offline-Nutzung
+## Offline-Nutzung
 
 Die Applikation soll, zwar vorerst mit Einschränkungen, auch offline eine zufriedenstellende User Experience bieten. So wird zum Beispiel in den Fragments der *HomeActivity* abgefragt, ob der Nutzer eine Internet Verbindung besitzt. Die hierfür benötigte Methode wurde in der *Request* Klasse implementiert. Ist der Nutzer zum Beispiel offline, wird im *MyLocationsFragment* und *MyFriendsFragment* anstatt, dass dort die jeweils relevanten Daten geladen werden, eine abgeänderte Anzeige angezeigt. Diese soll den Nutzer darüber informieren, dass er gerade keinen Zugriff zum Internet besitzt. Siehe hierzu das Kapitel Design.
 
@@ -807,7 +740,7 @@ Bisher ist es nicht angedacht, dass die Nutzer außerhalb des Location-Austausch
 
 Wanderlust hebt sich von normalen Bewertungsportalen dadurch ab, dass eine Reizüberflutung vermieden wird und nur wenige Orte pro Stadt vorgeschlagen werden. Deshalb kann es sinnvoll sein, die Anzahl der Favoriten pro Stadt zu begrenzen. Dabei könnte ein Maximum von 5 Favoriten pro Stadt sinnvoll sein. Schließlich ist die Anwendung für Backpacker gedacht und diese zeichnen sich dadurch aus, dass sie sich sehr kurz an vielen Orten aufhalten.
 
-## Weitere mögliche Features.
+## Weitere mögliche Features
 
 Es gibt einige Aktivitäten, über die man Nutzer noch mit Push-Benachrichtigungen informieren könnte. So könnte ein Nutzer darauf hingewiesen werden, dass er sich in der Nähe eines Favoriten eines Freundes aufhält. 
 
