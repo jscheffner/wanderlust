@@ -496,19 +496,11 @@ Im Gegensatz zu der Android-Anwendung und dem Backend ist die Administrationsobe
 
 # Ausblick
 
+Während für das Backend und die Administrations-Oberfläche schon die nächsten möglichen technischen Schritte erwähnt wurden gibt es auch neue Features, welche in der Zukunft unterstützt werden sollten.
+
 ## Offline-Verhalten
 
-In einem so speziellen Nutzungszenario wie das beim Backpacking wäre eine umfangreiche Offlinezugänglichkeit von Nöten. Im jetzigen Stand der Entwicklung wird abgefangen, ob der Nutzer online ist. Falls er es nicht ist, werden in den Fragmenten "MyLocation" bzw. "My Friends" eine Ansicht mit "You're not connected to the internet" und dem traurigen Rucksack eingeblendet. 
-
-Das Hinzufügen eines Freundes über NFC funktioniert schon offline, in dem die auszutauschenden User-Ids im Shared-Preferences-Speicher des Smartphones gespeichert werden. Der Request an die Api-Schnittstelle startet, wenn der Nutzer die Home-Activity aufruft und wieder eine Internetverbindung besteht. Nach erfolgreichem Senden des Requests wird die String-Variable in den Shared Preferences gelöscht. 
-
-Wünschenswert wäre eine Offlinespeicherung aller Daten auf dem Gerät. Dies hätte den Vorteil, dass alle Locations bzw. Freunde auch offline angezeigt werden können. In diesem Zusammenhang müsste auch eine geeignete Datenbank angelegt werden können, die die Daten aus MongoDB in der entsprechenden Struktur speichert. Abhängig von der Verbindung würden entweder die Daten aus dem Backend nachgeladen und aktualisiert oder die zwischengespeicherten Daten angezeigt werden. Beispielsweise könnte man sich über die Umsetzung mit einer SQLite-Datenbank Gedanken machen. 
-
-## Pushbenachrichtigungen beim Teilen der Location-Listen
-
-Bisher wird eine Push-Benachrichtigung geschickt, wenn der Nutzer seine Locations via Email einem anderen Nutzer freigegeben hat. Falls der Nutzer diese Nachricht wegwischen würde, ohne auf "I want to share my locations too" zu drücken, hat er momentan keine Möglichkeit, dies nachträglich zu tun. 
-
-In der weiteren Entwicklung würde man die Push-Benachrichtungen ausweiten und Funktionalitäten so anpassen, dass innerhalb der App eine Sektion zeigt, mit wem man seine Locations geteilt hat, wer davon sich auch in meiner Freundesliste befindet und die Anfragenverwaltung, ob die Freigabe zu einem späteren Zeitpunkt erfolgen soll. 
+Wanderlust implementiert schon Funktionalitäten, welche die Offline-Nutzung der App vereinfachen. Die Möglichkeiten sind dabei aber noch nicht ausgeschöpft. Möglich wäre beispielsweise eine Offlinespeicherung aller Daten auf dem Gerät. Dies hätte den Vorteil, dass alle Locations bzw. Freunde auch offline angezeigt werden können. Abhängig von der Verbindung würden entweder die Daten aus dem Backend nachgeladen und aktualisiert oder die zwischengespeicherten Daten angezeigt werden. Dies wäre beispielsweise mithilfe einer SQLite-Datenbank möglich. 
 
 ## Chatfunktion
 
@@ -520,8 +512,4 @@ Wanderlust hebt sich von normalen Bewertungsportalen dadurch ab, dass eine Reiz�
 
 ## Weitere mögliche Features
 
-Es gibt einige Aktivitäten, über die man Nutzer noch mit Push-Benachrichtigungen informieren könnte. So könnte ein Nutzer darauf hingewiesen werden, dass er sich in der Nähe eines Favoriten eines Freundes aufhält. 
-
-Ein weiteres mögliches Feature wäre das Teilen des aktuellen Standortes mit seinen Freunden.
-
-Auch die Kartenansicht könnte erweitert werden, beispielsweise um Filter für verschiedene Kategorien.
+Es gibt einige Aktivitäten, über die man Nutzer noch mit Push-Benachrichtigungen informieren könnte. So könnte ein Nutzer darauf hingewiesen werden, dass er sich in der Nähe eines Favoriten eines Freundes aufhält. Ein weiteres mögliches Feature wäre das Teilen des aktuellen Standortes mit seinen Freunden. Auch die Kartenansicht könnte erweitert werden, beispielsweise um Filter für verschiedene Kategorien.
